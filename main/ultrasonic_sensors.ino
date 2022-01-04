@@ -12,7 +12,6 @@ int index2 = 0;
 int value2 = 0;
 int sum2 = 0;
 int samples2[SIZE];
-;
 int avg2 = 0;
 float Raw[2];
 float Position[2] = {0, 13};
@@ -132,6 +131,8 @@ void Ultra2() {
   distance2 = duration2 * 0.0343 / 2;
 }
 
+// This function handles the calling of functions needed to properly gather
+// data from the Ultra Sonic Sensors
 void MainUltraSensor() {
   Ultra();
   delayMicroseconds(2);
