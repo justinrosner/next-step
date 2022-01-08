@@ -26,7 +26,7 @@
 
 Talkie voice;
 
-void justin() {
+void talkie() {
     voice.doNotUseInvertedOutput();
 #if defined(TEENSYDUINO)
     pinMode(3, OUTPUT);
