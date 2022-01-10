@@ -1,6 +1,73 @@
 // This file contains all of the functions related to the setup and collection
 // of data from the ultrasonic sensors
 
+int echo1 = 2;
+int trig1 = 3;
+int echo2 = 4;
+int trig2 = 5;
+int echo3 = 6;
+int trig3 = 7;
+int echo4 = 8;
+int trig4 = 9;
+int echo5 = 10;
+int trig5 = 11;
+
+int Ultra(int trig, int echo) {
+  // Clears the trigPin
+  digitalWrite(trig, LOW);
+  delayMicroseconds(2);
+
+  // Sets the trigPin on HIGH state for 10 micro seconds
+  digitalWrite(trig, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trig, LOW);
+
+  // Reads the echoPin, returns the sound wave travel time in microseconds
+  int duration = pulseIn(echo, HIGH);
+
+  // Calculating and returning the distance
+  return (duration * 0.0343 / 2);
+}
+
+void UltraSetup() {
+  pinMode(trig1, OUTPUT);
+  pinMode(echo1, INPUT);
+  pinMode(trig2, OUTPUT);
+  pinMode(echo2, INPUT);
+  pinMode(trig3, OUTPUT);
+  pinMode(echo3, INPUT);
+  
+  // Uncomment when all 5 sensors are up and working
+  /*
+  pinMode(trig4, OUTPUT);
+  pinMode(echo4, INPUT);
+  pinMode(trig5, OUTPUT);
+  pinMode(echo5, INPUT);
+  */
+}
+
+void MainUltraSensor() {
+  int d1 = Ultra(trig1, echo1);
+  delayMicroseconds(2);
+  int d2 = Ultra(trig2, echo2);
+  delayMicroseconds(2);
+  int d3 = Ultra(trig3, echo3);
+  
+  // Uncomment this when all 5 sensors are up and working
+  /*
+  delayMicroseconds(2);
+  int d4 = Ultra(trig4, echo4);
+  delayMicroseconds(2);
+  int d5 = Ultra(trig5, echo5);
+  */
+
+  Serial.println("distance1 = " + String(d1) + " ");
+  Serial.println("distance2 = " + String(d2) + " ");
+  Serial.println("distance3 = " + String(d3) + " ");
+}
+
+// All of the old code that we used for the POC demo is below here
+/*
 #define SIZE 20
 int n = 2;
 int index = 0;
@@ -176,3 +243,4 @@ void MainUltraSensor() {
   // Serial.println("distanceFilt = " + String(avg) + " ");
   // Serial.println("distance = " + String(abs(avg2-avg)) + " ");
 }
+*/

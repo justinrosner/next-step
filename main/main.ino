@@ -4,11 +4,7 @@ int trigPin2 = 4;
 int echoPin2 = 3;
 
 void setup() {
-  pinMode(trigPin, OUTPUT);
-  pinMode(echoPin, INPUT);
-  pinMode(trigPin2, OUTPUT);
-  pinMode(echoPin2, INPUT);
-
+  UltraSetup();
   Serial.begin(9600);
 }
 
