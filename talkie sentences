@@ -1,0 +1,38 @@
+Hello! In order to start, please say your height.
+
+spt_HELLO spt_IN spt_ORDER spt_TO spt_START, spt_PLEASE spt_SAY spt_HOW sp3_HIGH spt_YOU spt_ARE. 
+
+
+Did you say: 
+
+spt_DID spt_YOU spt_SAY: 
+
+
+zero one two three four five six seven eight nine 
+
+all spt_# (eg. spt_ZERO)
+
+
+Input not correct, please try again.
+
+spa_INPUT spt_NOT spt_CORRECT spt_PLEASE spt_TRY_AGAIN
+
+
+Device ready
+
+spt_DEVICE sp4_READY
+
+
+
+
+
+Warning, low power.
+
+sp4_WARNING sp3_LOW sp4_POWER 
+
+
+Warning, part of device broken. 
+
+sp4_WARNING spt_PART spt_OF spt_DEVICE sp3_BROKEN
+
+
