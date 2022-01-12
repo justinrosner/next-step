@@ -3,13 +3,15 @@
 // functionality
 
 #include "vocab.h"
+#include "Vocab_Toms_Diner.h"
 
 // Declare a global instance of a Talkie voice
 Talkie voice;
 
 // This function instructs the user to enter their height and width measurements
 void GetUserInputMessage() {
-    voice.say(GETUSERINPUTMESSAGE);
+    voice.say(spDINER);
+    //voice.say(GETUSERINPUTMESSAGE);
 }
 
 // This function instructs the user to turn around 180 degrees. This function
