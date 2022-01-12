@@ -8,7 +8,7 @@ int trigPin2 = 4;
 int echoPin2 = 3;
 
 void setup() {
-
+  GetUserInputMessage();
 }
 
 void loop() { 
