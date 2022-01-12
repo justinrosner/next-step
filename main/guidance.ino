@@ -43,15 +43,16 @@ float ComputeReboundAngle() {
     
     // Go over the left sensors
     for (int i = -2; i < 0; i++) {
-        double a_i = (i - 1) * a_0;
-        numerator += a_i * fused_distances[i + 2];
+        double a_i_left = (i - 1) * a_0;
+        numerator += a_i_left * fused_distances[i + 2];
         denominator += fused_distances[i + 2];
     }
 
     // Go over the middle and right sensors
     for (int i = 0; i < 3; i++) {
-        double a_i = (i + 1) * a_0;
-        numerator += a_i * fused_distances[i + 2];
+        double a_i_right = (i + 1) * a_0;
+        //Serial.println("numerator = " + String(a_i_right * fused_distances[i + 2]) + " :" + String(i+1) + " ");
+        numerator += a_i_right * fused_distances[i + 2];
         denominator += fused_distances[i + 2];
     }
 

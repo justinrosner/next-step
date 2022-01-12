@@ -12,17 +12,17 @@ void MainSensorFusion() {
     MainLidar();
     MainUltraSensor(); // Ultrasonic distance will now be stores in distances[]
 
-    // TO-DO: Remove this once you get the basic guidance system working
-    //Serial.println("FILTERED LEFT = " + String(distances[0]) + " ");
-    //Serial.println("FILTERED CENTER LEFT = " + String(distances[1]) + " ");
-    //Serial.println("FILTERED CENTER = " + String(distances[2]) + " ");
-    //Serial.println("FILTERED CENTER RIGHT = " + String(distances[3]) + " ");
-    //Serial.println("FILTERED RIGHT = " + String(distances[4]) + " ");
-
     // TO-DO: Get actual sensor fusion working once we can collect data from
     // lidar. For now we are just going to assume that the filtered ultrasonic
     // data is the fused data.
     for (int i = 0; i < N; i++) {
-        fused_distances[i] = distances[5];
+        fused_distances[i] = distances[i];
     }
+
+    // TO-DO: Remove print statements once fusion system is working
+    //Serial.println("FUSED LEFT = " + String(fused_distances[0]) + " ");
+    //Serial.println("FUSED CENTER LEFT = " + String(fused_distances[1]) + " ");
+    //Serial.println("FUSED CENTER = " + String(fused_distances[2]) + " ");
+    //Serial.println("FUSED CENTER RIGHT = " + String(fused_distances[3]) + " ");
+    //Serial.println("FUSED RIGHT = " + String(fused_distances[4]) + " ");
 }

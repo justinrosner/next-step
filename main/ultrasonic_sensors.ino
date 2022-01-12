@@ -15,16 +15,16 @@ struct SensorInformation {
 struct SensorInformation sensors[N];
 
 // Pin assignments
-int cl_echo = 2;
-int cl_trig = 3;
-int c_echo = 4;
-int c_trig = 5;
-int cr_echo = 6;
-int cr_trig = 7;
-int r_echo = 8;
-int r_trig = 9;
-int l_echo = 10;
-int l_trig = 11;
+int cl_echo = 23;
+int cl_trig = 22;
+int c_echo = 25;
+int c_trig = 24;
+int cr_echo = 27;
+int cr_trig = 26;
+int r_echo = 29;
+int r_trig = 28;
+int l_echo = 31;
+int l_trig = 30;
 
 // This function calculates the raw unfiltered distance data from the sensors
 double Ultra(int trig, int echo) {
