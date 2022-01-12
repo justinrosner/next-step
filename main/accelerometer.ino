@@ -25,10 +25,9 @@ double getXAcceleration() {
 
 // This function updates the velocity global variable and returns the
 // new updated value
-double getVelocity() {
+void UpdateVelocity() {
     // Calculate the time since the last time reading
     float cur_time = millis();
-    float t = cur_time - time;
-    velocity = velocity + getXAcceleration() * t;
-    return velocity;
+    time_since_last_reading = cur_time - time;
+    velocity = velocity + getXAcceleration() * time_since_last_reading;
 }
