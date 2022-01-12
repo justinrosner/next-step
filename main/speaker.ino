@@ -3,23 +3,14 @@
 // functionality
 
 #include "vocab.h"
-#include "Vocab_US_Large.h"
-#include "Vocab_Special.h"
-#include "Vocab_US_TI99.h"
-#include "Vocab_US_Clock.h"
+#include "Vocab_Toms_Diner.h"
 
 // Declare a global instance of a Talkie voice
 Talkie voice;
 
 // This function instructs the user to enter their height and width measurements
 void GetUserInputMessage() {
-    voice.say(sp3_WIND);
-    voice.say(sp3_NORTHEAST);
-    voice.say(sp3_GUSTING_TO);
-    voice.say(sp3_FOURTY);
-    voice.say(sp3_MILES);
-    voice.say(sp3_PER);
-    voice.say(sp3_HOUR);
+    voice.say(spDINER);
     //voice.say(GETUSERINPUTMESSAGE);
 }
 
