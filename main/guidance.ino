@@ -9,7 +9,6 @@
 // Constants used in the "Bubble Rebound Algorithm"
 double bubble_boundary[N];
 double ki = 0.8; // This is a scaling constant. Try values between [0.2-3]
-double a_0 = M_PI / N;
 
 // This function updates the bubble_boundary array
 void UpdateBubbleBoundary() {
@@ -39,20 +38,13 @@ bool CheckForObstacles() {
 float ComputeReboundAngle() {
     double numerator = 0;
     double denominator = 0;
+    double alpha_0 = M_PI / N;
     
-    // Go over the left sensors
-    for (int i = -2; i < 0; i++) {
-        double a_i_left = (i - 1) * a_0;
-        numerator += a_i_left * fused_distances[i + 2];
-        denominator += fused_distances[i + 2];
-    }
-
-    // Go over the middle and right sensors
-    for (int i = 0; i < 3; i++) {
-        double a_i_right = (i + 1) * a_0;
-        //Serial.println("numerator = " + String(a_i_right * fused_distances[i + 2]) + " :" + String(i+1) + " ");
-        numerator += a_i_right * fused_distances[i + 2];
-        denominator += fused_distances[i + 2];
+    // Loop to calculate the numerator and denominator
+    for (int i = 0; i < N; i++) {
+        double alpha_i = (i + 1) * alpha_0;
+        numerator += alpha_i * fused_distances[i];
+        denominator += fused_distances[i];
     }
 
     return numerator / denominator;
@@ -63,6 +55,9 @@ float ComputeReboundAngle() {
 // sensor covers and as the sectors increase they move across the sensors until
 // you get to the last sector (the left ultrasonic sensor)
 int CalculateSector(float rebound_angle) {
+    // TO-DO: I think compute rebound angle is now computing the right thing,
+    // tomorrow I need to confirm this and conver the calculation to degrees 
+    // and finish this function
     // Falls in the first sector (where the right sensor is)
 
     // Falls in the second sector
@@ -73,7 +68,6 @@ int CalculateSector(float rebound_angle) {
 
     // Falls in the fifth sector (Where the left sensor is)
 
-    }
 }
 
 // Main function that implements the "Bubble Rebound Algorithm"
