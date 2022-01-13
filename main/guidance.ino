@@ -37,7 +37,6 @@ bool CheckForObstacles() {
 // This function computes the rebound angle. The rebound angle is the direction
 // in which we will now be travelling to avoid running into the obstacle.
 float ComputeReboundAngle() {
-    // TO-DO: FIGURE OUT WHY THIS IS NOT WORKING
     double numerator = 0;
     double denominator = 0;
     
@@ -65,19 +64,14 @@ float ComputeReboundAngle() {
 // you get to the last sector (the left ultrasonic sensor)
 int CalculateSector(float rebound_angle) {
     // Falls in the first sector (where the right sensor is)
-    if (rebound_angle <= 36) {
-        // TO-DO: We need to make the signals here for what haptic motors to
-        //        signal to
-    } else if (rebound_angle <= 72) {
-        // Falls in the second sector
-    } else if (rebound_angle <= 108) {
-        // Falls in the third sector
-    } else if (rebound_angle <= 144) {
-        // Falls in the fourth sector
-    } else if (rebound_angle <= 180) {
-        // Falls in the fifth sector
-    } else {
-        // No available options at the current moment, have the user turn around
+
+    // Falls in the second sector
+
+    // Falls in the third sector
+
+    // Falls in the fourth sector
+
+    // Falls in the fifth sector (Where the left sensor is)
 
     }
 }
@@ -94,6 +88,7 @@ void MainGuidance() {
     if (CheckForObstacles()) {
         // Obstacle found, compute new heading
         float new_direction = ComputeReboundAngle();
+        CalculateSector(new_direction);
         Serial.println("new_direction = " + String(new_direction) + " ");
     } else {
         // No obstacle found, keep moving straight (no guidance needed)
