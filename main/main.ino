@@ -14,6 +14,6 @@ void setup() {
   UltraSetup();
 }
 
-void loop() { 
+void loop() {
   MainGuidance();
 }

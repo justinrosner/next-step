@@ -6,9 +6,9 @@
 int ground_pin = 0;
 int power_pin = 0;
 // These need to be assigned to analog pins
-int x_pin = A3;
-int y_pin = A2;
-int z_pin = A1;
+int x_pin = A0;
+int y_pin = A1;
+int z_pin = A2;
 
 // This function handles the setup of the accelerometer
 void AccelerometerSetup() {
@@ -20,6 +20,7 @@ void AccelerometerSetup() {
 
 // This is a helper function to get the acceleration in the x direction
 double getXAcceleration() {
+    Serial.println("X Accel: " + String(analogRead(x_pin)) + " ");
     return analogRead(x_pin);
 }
 
