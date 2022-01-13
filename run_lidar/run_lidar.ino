@@ -46,11 +46,18 @@ RPLidar lidar;
 
 int nsbit = 0;
 
+// we want 180 deg of a scan and only take every other point.
+bool resolution = true;
+
+// object to store a scanned point.
 typedef struct {
   float distance;
   float angle;
 } scannedPoint;
-scannedPoint points[50] = {};
+
+// Data buffer to store up to 1/4 of the points per scan.
+scannedPoint points[363] = {};
+
 int pointInd = 0;
 
 #define RPLIDAR_MOTOR 3 // The PWM pin for control the speed of RPLIDAR's motor.
@@ -91,18 +98,24 @@ void loop() {
         Serial.println(pointObj.angle);
         
       }
-     
+
+      Serial.println("------------- NEW SCAN -----------");
       nsbit = 0;
       pointInd = 0;
       scannedPoint points[50] = {};
     } else {
-      if (distance > 0 && (angle >= 350 || angle <= 10 ) && distance < 500 ) {
-        scannedPoint detectedObject = {distance, angle};
-        points[pointInd++] = detectedObject;
-        
+      // A LiDAR scan contains a lot of bad points with distance = 0, ignore these.
+      // We want a 180 deg fov in front of a user, and take every other point.
+      if (distance > 0 && (angle >= 270 || angle <= 90 )) {
+        if (resolution) {
+          scannedPoint detectedObject = {distance, angle};
+          points[pointInd++] = detectedObject;
+          resolution = not resolution;
+        } else {
+          resolution = not resolution;
+        } 
       }
-    }
-    
+    }    
   } else {
     analogWrite(RPLIDAR_MOTOR, 0); //stop the rplidar motor
     
