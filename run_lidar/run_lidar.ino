@@ -40,6 +40,7 @@
  
 // This sketch code is based on the RPLIDAR driver library provided by RoboPeak
 #include <RPLidar.h>
+#include <KickSort.h>
 
 // You need to create an driver instance 
 RPLidar lidar;
@@ -50,23 +51,29 @@ int nsbit = 0;
 bool resolution = true;
 
 // object to store a scanned point.
-typedef struct {
+struct scannedPoint{
   float distance;
   float angle;
-} scannedPoint;
+  bool operator>(const scannedPoint& rhs) const {
+    return this->angle > rhs.angle;
+  }
+  bool operator<(const scannedPoint& rhs) const {
+    return this->angle < rhs.angle;
+  }
+} ;
 
 // Data buffer to store up to 1/4 of the points per scan.
 scannedPoint points[363] = {};
 
 int pointInd = 0;
+int datapoints = 0;
 
 #define RPLIDAR_MOTOR 3 // The PWM pin for control the speed of RPLIDAR's motor.
                         // This pin should connected with the RPLIDAR's MOTOCTRL signal 
-                       
-                        
+                                               
 void setup() {
   // bind the RPLIDAR driver to the arduino hardware serial
-  Serial.begin(9600);
+  Serial.begin(115200);
   lidar.begin(Serial1);
   
   // set pin modes
@@ -86,6 +93,7 @@ void loop() {
       nsbit++;
     }
     if (nsbit > 2) {
+      KickSort<scannedPoint>::quickSort(points, pointInd, KickSort_Dir::ASCENDING);
       for (int i = 0; i < pointInd; i++) {
         scannedPoint pointObj = points[i];
         int objectnum = i + 1;
@@ -98,11 +106,14 @@ void loop() {
         Serial.println(pointObj.angle);
         
       }
+      Serial.print("Points captured per scan: ");
+      Serial.println(datapoints);
 
       Serial.println("------------- NEW SCAN -----------");
       nsbit = 0;
       pointInd = 0;
-      scannedPoint points[50] = {};
+      datapoints = 0;
+      scannedPoint points[363] = {};
     } else {
       // A LiDAR scan contains a lot of bad points with distance = 0, ignore these.
       // We want a 180 deg fov in front of a user, and take every other point.
@@ -113,8 +124,9 @@ void loop() {
           resolution = not resolution;
         } else {
           resolution = not resolution;
-        } 
+        }
       }
+      datapoints++;
     }    
   } else {
     analogWrite(RPLIDAR_MOTOR, 0); //stop the rplidar motor
