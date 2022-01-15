@@ -11,6 +11,7 @@ void MainSensorFusion() {
     // Call to get the data from the ultrasonic sensors and the LIDAR
     MainLidar();
     MainUltraSensor(); // Ultrasonic distance will now be stores in distances[]
+    MainLidar();
 
     // TO-DO: Get actual sensor fusion working once we can collect data from
     // lidar. For now we are just going to assume that the filtered ultrasonic
