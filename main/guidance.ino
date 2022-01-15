@@ -9,6 +9,7 @@
 // Constants used in the "Bubble Rebound Algorithm"
 double bubble_boundary[N];
 double ki = 0.8;  // This is a scaling constant. Try values between [0.2-3]
+double alpha_0 = M_PI / N;
 
 // This function updates the bubble_boundary array
 void UpdateBubbleBoundary() {
@@ -26,13 +27,19 @@ void UpdateBubbleBoundary() {
 // This function performs a basic check to see if there is an obstacle in the
 // bubble
 bool CheckForObstacles() {
+  int count = 0;
   for (int i = 0; i < N; i++) {
-    if (fused_distances[i] <= bubble_boundary[i]) {
-      return true;
-    } else {
-      return false;
-    }
+    if (fused_distances[i] <= bubble_boundary[i])
+      count++;
   }
+
+  // If none of the sensors have detected an object we return false
+  if (count == 0) {
+    return false;
+  }
+  // Otherwise it means that the sensors have detected an object and
+  // we return true
+  return true;
 }
 
 // This function computes the rebound angle. The rebound angle is the direction
@@ -40,7 +47,6 @@ bool CheckForObstacles() {
 float ComputeReboundAngle() {
   double numerator = 0;
   double denominator = 0;
-  double alpha_0 = M_PI / N;
 
   // Loop to calculate the numerator and denominator
   for (int i = 0; i < N; i++) {
