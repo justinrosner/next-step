@@ -63,7 +63,7 @@ float ComputeReboundAngle() {
 // sensor covers and as the sectors increase they move across the sensors until
 // you get to the last sector (the left ultrasonic sensor)
 int CalculateSector(float rebound_angle) {
-  Serial.println("Rebound Angle = " + String(rebound_angle) + " ");
+  //Serial.println("Rebound Angle = " + String(rebound_angle) + " ");
   // Falls in the first sector (where the left sensor is)
   if (rebound_angle >= 0 && rebound_angle < 0.62) {
     Serial.println("LEFT BUZZER");
