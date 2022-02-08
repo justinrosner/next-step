@@ -10,7 +10,6 @@ double time_since_last_reading = 0.0;
 
 void setup() {
   Serial.begin(9600);
-  AccelerometerSetup();
   UltraSetup();
   LidarSetup();
 }

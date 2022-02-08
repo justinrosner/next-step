@@ -1,27 +1,39 @@
 // This file contains all of the code relating to gathering velocity data from
 // the accelerometer
 
-// Pin Assignments
-// TO-DO: Assign the proper pins after we get the wiring done
-int ground_pin = 0;
-int power_pin = 0;
-// These need to be assigned to analog pins
-int x_pin = A0;
-int y_pin = A1;
-int z_pin = A2;
+// Constants for moving point average
+#define WINDOW_SIZE 20
 
-// This function handles the setup of the accelerometer
-void AccelerometerSetup() {
-    pinMode(ground_pin, OUTPUT);
-    pinMode(power_pin, OUTPUT);
-    digitalWrite(ground_pin, LOW);
-    digitalWrite(power_pin, HIGH);
-}
+// Define a struct to store the information needed for Moving Point Average
+struct AccelInformation {
+  int index = 0;
+  double sum = 0;
+  double reading[WINDOW_SIZE];
+};
+
+// Pin Assignments, these need to be assigned to analog pins
+const int x_pin = A0;
+const int y_pin = A1;
+const int z_pin = A2;
+
+// Constants for accelrometer readings
+// TO-DO: Need to adjust the accel_offset number once we mount the accelerometer
+// into its final position
+const double accel_offset = 355.0; 
+const double prev_accel = 0;
+
+// Create an array of SensorInformation structs
+struct AccelInformation accelerometer_readings;
 
 // This is a helper function to get the acceleration in the x direction
 double getXAcceleration() {
-    Serial.println("X Accel: " + String(analogRead(x_pin)) + " ");
-    return analogRead(x_pin);
+    double acceleration = accel_offset - analogRead(x_pin);
+    double filtered_acceleration = MovingPointAverage(accelerometer_readings.sum,
+                                               accelerometer_readings.reading,
+                                               accelerometer_readings.index,
+                                               acceleration);
+    Serial.println("X Accel: " + String(filtered_acceleration) + " ");
+    return filtered_acceleration;
 }
 
 // This function updates the velocity global variable and returns the
@@ -29,6 +41,9 @@ double getXAcceleration() {
 void UpdateVelocity() {
     // Calculate the time since the last time reading
     float cur_time = millis();
-    time_since_last_reading = cur_time - time;
-    velocity = velocity + getXAcceleration() * time_since_last_reading;
+    time_since_last_reading = (cur_time - time);
+    time = time_since_last_reading;
+    double accel = prev_accel + getXAcceleration();
+    velocity += accel * (time_since_last_reading / 1000);
+    Serial.println("Velocity: " + String(velocity));
 }

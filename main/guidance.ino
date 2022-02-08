@@ -8,19 +8,30 @@
 
 // Constants used in the "Bubble Rebound Algorithm"
 double bubble_boundary[N];
-double ki = 0.8;  // This is a scaling constant. Try values between [0.2-3]
-double alpha_0 = M_PI / N;
+const double ki = 1.5;  // This is a scaling constant. Try values between [0.2-3]
+const double alpha_0 = M_PI / N;
 
 // This function updates the bubble_boundary array
 void UpdateBubbleBoundary() {
   // Update the velocity
-  // TO-DO: Uncomment this when the accelerometer is setup
-  // UpdateVelocity();
+  // TO-DO: Uncomment this when the accelerometer is setup in final system
+  //UpdateVelocity();
   velocity = 100.0;  // temp value for velocity (measure in cm/s)
+  double value = 0.0;
+  
+  // If the velocity is less than 1m/s then we want to use a fixed bubble
+  // boundary size
+  if (velocity <= 100.0) {
+    value = 100.0;
+  } else {
+    value = velocity;
+  }
+  
+  Serial.println("Bubble Boundary: " + String(ki * value));
 
   for (int i = 0; i < N; i++) {
     // Update the bubble_boundary value
-    bubble_boundary[i] = ki * velocity;
+    bubble_boundary[i] = ki * value;
   }
 }
 
@@ -88,11 +99,12 @@ int CalculateSector(float rebound_angle) {
 // Main function that implements the "Bubble Rebound Algorithm"
 void MainGuidance() {
   // Gather the data from the sensor fusion algorithm
-  MainSensorFusion();
+  //MainSensorFusion();
 
   // Update the Bubble Boundary
   UpdateBubbleBoundary();
 
+  /*
   // Check if there is an obstacle in the bubble
   if (CheckForObstacles()) {
     // Obstacle found, compute new heading
@@ -102,4 +114,5 @@ void MainGuidance() {
     // No obstacle found, keep moving straight (no guidance needed)
     return;
   }
+  */
 }

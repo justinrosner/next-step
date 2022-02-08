@@ -15,16 +15,16 @@ struct SensorInformation {
 struct SensorInformation sensors[N];
 
 // Pin assignments
-int cl_echo = 23;
-int cl_trig = 22;
-int c_echo = 25;
-int c_trig = 24;
-int cr_echo = 27;
-int cr_trig = 26;
-int r_echo = 29;
-int r_trig = 28;
-int l_echo = 31;
-int l_trig = 30;
+const int cl_echo = 23;
+const int cl_trig = 22;
+const int c_echo = 25;
+const int c_trig = 24;
+const int cr_echo = 27;
+const int cr_trig = 26;
+const int r_echo = 29;
+const int r_trig = 28;
+const int l_echo = 31;
+const int l_trig = 30;
 
 // This function calculates the raw unfiltered distance data from the sensors
 double Ultra(int trig, int echo) {
@@ -60,7 +60,7 @@ void UltraSetup() {
 }
 
 // This function performs a simple moving point average on the data from the
-// sensors to 
+// sensors 
 double MovingPointAverage(double &sum, double readings[], int &index,
                           double &val) {
   sum = sum - readings[index];
