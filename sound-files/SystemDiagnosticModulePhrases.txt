@@ -1,0 +1,23 @@
+For LiDAR Connection Issue:
+The device is experiencing a hardware issue with its sensors. Please stop using the device ASAP and gets to a safe location.
+
+For ultrasonic sensor connection issue:
+The device is experiencing a hardware issue with its sensors. Please stop using the device ASAP and gets to a safe location.
+
+For LiDAR producing false data:
+The device is experiencing a hardware issue with its sensors. Please stop using the device ASAP and gets to a safe location.
+
+For ultrasonic sensor producing false data:
+The device is experiencing a hardware issue with its sensors. Please stop using the device ASAP and gets to a safe location.
+
+For haptic motor connection issue:
+The device is experiencing a hardware issue with its haptic feedback system. Please stop using the device ASAP and gets to a safe location.
+
+For input button connection issue:
+The device is experiencing a hardware issue with its input button. The device is still operable under the current settings, but those settings are unable to be changed.
+
+For input button producing false data:
+The device is experiencing a hardware issue with its input button. The device is still operable under the current settings, but those settings are unable to be changed.
+
+For LiDAR or ultrasonic sensor being covered:
+The LiDAR or one of the ultrasonic sensor is being covered or blocked which will cause the device function not as intended. Please uncover and unblock the sensor before continue using the device.
