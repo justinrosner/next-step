@@ -1,5 +1,5 @@
 # next-step
-Final year software engineering capstone project
+Final year software engineering capstone project. This project uses an Arduino in combination with ultrasonic sensors and a Lidar to provide guidance for visually impaired users in indoor settings.
 
 ## Directory Overview
     .
