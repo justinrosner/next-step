@@ -1,6 +1,14 @@
 # next-step
 Final year software engineering capstone project
 
+## Directory Overview
+    .
+    ├── documentation           # Documentation files 
+    ├── main                    # Source Arduino files
+    ├── sound-files             # Contains all .wav files
+    ├── .gitignore
+    └── README.md
+
 ## Contributing
 Before you push any changes to your local branch for review, make sure that you are following the correct C++ style guidelines.
 
