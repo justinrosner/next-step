@@ -6,9 +6,9 @@
 
 // Wiring connections that need to be used
 // DI -> Pin 50
-// DO -> Pin 51
+// DO -> Pin 51a
 // CLK -> Pin 52
-const int chipSelect = 8;
+const int chipSelect = 53;
 const int cardDetect = 9;
 
 // Global declarations used only in this file
@@ -32,6 +32,10 @@ void SDCardSetup() {
   } else {
     Serial.println("Initialization Complete!");
   }
+
+  audio.speakerPin = 6; // Set speaker output to pin 8
+  audio.setVolume(5); // Value from 0 - 7
+  audio.quality(1); // Set 1 for 2x oversampling, set 0 for normal
 }
 
 // This function takes the inputted file name as input and plays the
@@ -40,7 +44,9 @@ void playWAVFile(String fileName) {
   fileName = "/" + fileName;
   Serial.println(fileName);
   File soundFile = SD.open(fileName);
+  audio.play(soundFile.name());
 
+  /*
   File root = SD.open("/");
   int numTabs = 0;
   while (true) {
@@ -58,4 +64,5 @@ void playWAVFile(String fileName) {
     Serial.println(entry.size(), DEC);
     entry.close();
   }
+  */
 }
