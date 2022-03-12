@@ -15,9 +15,11 @@ SystemDiagnostic diagnosticModule;
 void setup() {
   Serial.begin(9600);
   ButtonSetup();
-  UltraSetup();
-  diagnosticModule = *(new SystemDiagnostic());
-  GetUserHeight();
+  //UltraSetup();
+  fusionSetup();
+  //diagnosticModule = *(new SystemDiagnostic());
+  //GetUserHeight();
+  
 }
 
 void loop() {

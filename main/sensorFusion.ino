@@ -25,8 +25,9 @@ void fusionSetup() {
 void MainSensorFusion() {
   // put your main code here, to run repeatedly:
   int angle;
-  for(int i=0; i<len-1; i++){
-    dist[i]=s[i].sensorLoop();  
+  dist[len]=L.sensorLoop();
+  for(int i=0; i<len; i++){
+    dist[i]=s[i].sensorLoop(); 
     //check if range intersects with lidar angle measured
     //take out the list of points it is not needed only need current one!
     angle=L.points[L.pointInd].angle;
@@ -38,7 +39,6 @@ void MainSensorFusion() {
        //add this funtion within the sensors
        intersect=1;
     }
-    
     
     delay(10);
   }
@@ -79,6 +79,9 @@ void MainSensorFusion() {
   }
   else{
     L.updatePrevDist(dist[len]*10);
+    for(int i=0; i<len; i++){
+      fused_distances[i]=dist[i];  
+    }
   }
   
   //return dist;

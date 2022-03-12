@@ -1,5 +1,5 @@
 #include "Lidar.h"
-
+Lidar::Lidar(){}
 Lidar::Lidar(float meaErr, float estErr, float r, float d, float variance, int tx, int rx){
 	filt.setVar(meaErr, estErr);
 	var=variance;
@@ -59,11 +59,11 @@ float Lidar::sensorLoop(){
       		// point.
       			if (distance > 0 && (angle >= 270 || angle <= 90)) {
         			if (resolution) {
-					distance=filt.nextEstimate(distance);
-					distaway=cos(depressAngle)*distance;
-          				scannedPoint detectedObject = {distance, angle};
-          				points[pointInd++] = detectedObject;
-          				resolution = not resolution;
+					      distance=filt.nextEstimate(distance);
+					      distaway=cos(depressAngle)*distance;
+          			scannedPoint detectedObject = {distance, angle};
+          			points[pointInd++] = detectedObject;
+          			resolution = not resolution;
 					
           				
         			} 
@@ -79,10 +79,10 @@ float Lidar::sensorLoop(){
 
     		// try to detect RPLIDAR...
     		rplidar_response_device_info_t info;
-		Serial.prinln("kjhgf");
+		    //Serial.println("kjhgf");
     		if (IS_OK(lidar.getDeviceInfo(info, 100))) {
       			// detected...
-			Serial.prinln("detected");
+			    //Serial.println("detected");
       			lidar.startScan();
 
       			// start motor rotating at max allowed speed
@@ -91,4 +91,3 @@ float Lidar::sensorLoop(){
     		}
   	}
 }
-
