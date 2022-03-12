@@ -14,9 +14,10 @@ SystemDiagnostic diagnosticModule;
 
 void setup() {
   Serial.begin(9600);
+  ButtonSetup();
   UltraSetup();
-  LidarSetup();
   diagnosticModule = *(new SystemDiagnostic());
+  GetUserHeight();
 }
 
 void loop() {
