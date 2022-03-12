@@ -10,6 +10,9 @@ class SystemDiagnostic {
   public:
     SystemDiagnostic();
     static const String NO_ERROR;
+    static const String ERROR_BUTTON_NO_CONNECTION;
+    static const String ERROR_UNKNOWN;
+    static const int BUTTON_PIN = 13;
     static const String ERROR_LIDAR_NO_CONNECTION;
     static const String ERROR_LIDAR_WRONG_DATA;
     static const String ERROR_LIDAR_BLOCKED;
@@ -17,8 +20,6 @@ class SystemDiagnostic {
     static const String ERROR_ULTRASONIC_NO_CONNECTION;
     static const String ERROR_ULTRASONIC_WRONG_DATA;
     static const String ERROR_ULTRASONIC_BLOCKED;
-    static const String ERROR_BUTTON_NO_CONNECTION;
-    static const String ERROR_UNKNOWN;
     enum SENSOR_ID {
       SENSOR_MIN = -2,
       SENSOR_NULL = -1,
@@ -43,23 +44,12 @@ class SystemDiagnostic {
     float ultrasonicPreviousReading[SENSOR_MAX];
     bool lidarUnblocked;
     unsigned long timeLidarUnblocked;
+    int buttonState;
     void processError(String);
     void processError(String, SENSOR_ID);
     void processError(String, SENSOR_ID, byte);
     void outputErrorMessage(String);
+    void detectButtonPress();
 };
-
-// Initialize class constants
-const String SystemDiagnostic::NO_ERROR = "No Error";
-const String SystemDiagnostic::ERROR_LIDAR_NO_CONNECTION = "Cannot connect to LiDAR";
-const String SystemDiagnostic::ERROR_LIDAR_WRONG_DATA = "LiDAR returning false data";
-const String SystemDiagnostic::ERROR_LIDAR_BLOCKED = "LiDAR blocked";
-const String SystemDiagnostic::ERROR_LIDAR_BLOCKED_OR_NO_CONNECTION = "LiDAR blocked or disconnected";
-const String SystemDiagnostic::ERROR_ULTRASONIC_NO_CONNECTION = "Cannot connect to ultrasonic sensor";
-const String SystemDiagnostic::ERROR_ULTRASONIC_WRONG_DATA = "Ultrasonic sensor returning false data";
-const String SystemDiagnostic::ERROR_ULTRASONIC_BLOCKED = "Ultrasonic sensor blocked";
-const String SystemDiagnostic::ERROR_BUTTON_NO_CONNECTION = "Cannot connect to button";
-const String SystemDiagnostic::ERROR_UNKNOWN = "An unknown error occured";
-const float SystemDiagnostic::ULTRASONIC_SENSOR_RANGE[4] = {0, 3, 5, 1000};
 
 #endif
