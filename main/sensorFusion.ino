@@ -30,24 +30,26 @@ float [] fusionLoop() {
     //take out the list of points it is not needed only need current one!
     int angle=L.points[L.pointInd].angle;
     if(angle<=s[i].getCenter()+s[i].getRange()/2 && angle>=s[i].getCenter()-s[i].getRange()/2){
-       dist[i]=fuseDist(L.points[L.pointInd].distance, s[i].getDistance()) ;
+       dist[i]=fuseDist(L.distaway, s[i].getDistance()) ;
+       dist[len]=dist[i];
        //set the previous distance xtprev to this distance!
        s[i].updatePrevDist(dist[i]);
        //add this funtion within the sensors
        intersect=1;
     }
-    else{
-      //return the orignial distance no fusion needed  
-      //no intersection
-    }
+    
+    
     delay(10);
   }
   if(!intersect){
     //output distance of lidar as well and angle it was detecting at for bubble band! 
     dist[len-1]=L.sensorLoop();  
   }
+  else{
+    L.updatePrevDist(dist[len]*10);
+  }
   
-  return dist
+  return dist;
 }
 
 float fuseDist(float distLidar, float distUS){
