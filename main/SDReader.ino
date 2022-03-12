@@ -11,6 +11,9 @@
 const int chipSelect = 53;
 const int cardDetect = 9;
 
+// Global declarations used only in this file
+TMRpcm audio;
+
 // This function performs the main setup needed to make suer that the SD card
 // is connected
 void SDCardSetup() {
@@ -46,9 +49,9 @@ void playWAVFile(String fileName) {
 
 // This function checks to see if there is an existing file that stores the user
 // height information
-void CheckIfFileExists(String fileName) {
+bool CheckIfFileExists(String fileName) {
   fileName = "/" + fileName;
-  Serial.println(fileName)
+  Serial.println(fileName);
   if (SD.exists(fileName)) {
     return true;
   } else {
@@ -63,7 +66,7 @@ void WriteHeightToSD(int height) {
 
   // If the file opened okay, write to it
   if (HeightFile) {
-    HeightFile.println(string(height));
+    HeightFile.println(String(height));
     HeightFile.close();
   } else {
     // There was an error opening the file
@@ -81,14 +84,11 @@ int ReadHeightFromSD() {
     // Read from the file until there is nothing else in it. This should only be
     // one value
     while (HeightFile.available()) {
-      string stringHeight = HeightFile.read();
+      userHeight = HeightFile.read();
     }
 
     // Close the file
-    HeightFile.close()
-
-    // Convert string to int
-    userHeight = stoi(stringHeight);
+    HeightFile.close();
   } else {
     Serial.println("Error opening UserHeight.txt");
   }
