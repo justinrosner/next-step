@@ -61,18 +61,8 @@ void MainLidar() {
       for (int i = 0; i < pointInd; i++) {
         scannedPoint pointObj = points[i];
         int objectnum = i + 1;
-
-        // Serial.print("Point ");
-        // Serial.print(objectnum);
-        // Serial.print(": ");
-        // Serial.print(pointObj.distance);
-        // Serial.print(", ");
-        // Serial.println(pointObj.angle);
       }
-      // Serial.print("Points captured per scan: ");
-      // Serial.println(datapoints);
 
-      // Serial.println("------------- NEW SCAN -----------");
       nsbit = 0;
       pointInd = 0;
       datapoints = 0;
