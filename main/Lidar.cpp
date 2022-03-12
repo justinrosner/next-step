@@ -6,6 +6,7 @@ Lidar::Lidar(float meaErr, float estErr, float r, float d, float variance, int t
 	range=r;
 	depressAngle=d;
 	//set pins tx and ar and motor contr
+	pinMode(RPLIDAR_MOTOR, OUTPUT);
 }
 
 Lidar::~Lidar(){
