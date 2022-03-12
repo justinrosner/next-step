@@ -7,7 +7,7 @@ void KalmanFilter() {
 
 }
 
-void MainSensorFusion() {
+void MainSensorFusion1() {
     // Call to get the data from the ultrasonic sensors and the LIDAR
     MainLidar();
     MainUltraSensor(); // Ultrasonic distance will now be stores in distances[]
