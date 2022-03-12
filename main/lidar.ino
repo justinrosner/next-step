@@ -28,7 +28,7 @@ scannedPoint points[363] = {};
 int pointInd = 0;
 int datapoints = 0;
 
-#define RPLIDAR_MOTOR 3
+#define RPLIDAR_MOTOR 4
 
 void LidarSetup() {
   // bind the RPLIDAR driver to the arduino hardware serial
