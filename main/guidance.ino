@@ -27,7 +27,7 @@ void UpdateBubbleBoundary() {
     value = velocity;
   }
   
-  Serial.println("Bubble Boundary: " + String(ki * value));
+  //Serial.println("Bubble Boundary: " + String(ki * value));
 
   for (int i = 0; i < N; i++) {
     // Update the bubble_boundary value
@@ -99,7 +99,7 @@ int CalculateSector(float rebound_angle) {
 // Main function that implements the "Bubble Rebound Algorithm"
 void MainGuidance() {
   // Gather the data from the sensor fusion algorithm
-  //MainSensorFusion();
+  MainSensorFusion();
 
   // Update the Bubble Boundary
   UpdateBubbleBoundary();

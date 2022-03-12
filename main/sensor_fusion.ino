@@ -21,9 +21,9 @@ void MainSensorFusion() {
     }
 
     // TO-DO: Remove print statements once fusion system is working
-    //Serial.println("FUSED LEFT = " + String(fused_distances[0]) + " ");
-    //Serial.println("FUSED CENTER LEFT = " + String(fused_distances[1]) + " ");
-    //Serial.println("FUSED CENTER = " + String(fused_distances[2]) + " ");
-    //Serial.println("FUSED CENTER RIGHT = " + String(fused_distances[3]) + " ");
-    //Serial.println("FUSED RIGHT = " + String(fused_distances[4]) + " ");
+    Serial.println("FUSED LEFT = " + String(fused_distances[0]) + " ");
+    Serial.println("FUSED CENTER LEFT = " + String(fused_distances[1]) + " ");
+    Serial.println("FUSED CENTER = " + String(fused_distances[2]) + " ");
+    Serial.println("FUSED CENTER RIGHT = " + String(fused_distances[3]) + " ");
+    Serial.println("FUSED RIGHT = " + String(fused_distances[4]) + " ");
 }
