@@ -6,6 +6,7 @@
 
 class Lidar: public Sensor{
 	public:
+		Lidar();
 		Lidar(float meaErr, float estErr, float r, float d, float variance, int tx, int rx );
 		~Lidar();
 		float sensorLoop();

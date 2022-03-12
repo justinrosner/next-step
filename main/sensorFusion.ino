@@ -7,7 +7,7 @@ float alpha=0.01;
 
 int intersect=0;
 float distanceFused;
-Lidar L(10, 0.0001, 360, 13.9, 0.0001 , 19, 18); //360
+Lidar L; //360
 UltraSonic s [len];
 void fusionSetup() {
   // put your setup code here, to run once:
@@ -17,7 +17,7 @@ void fusionSetup() {
   s[2]=UltraSonic(24, 25, 15, 12.6, 10, 0.0001, 0.999, 0); //center
   s[3]=UltraSonic(22, 23, 15, 12.6, 10, 0.0001, 0.999, 324); //centerleft
   s[4]=UltraSonic(30, 31, 15, 12.6, 10, 0.0001, 0.999, 288); //left
-   
+  L=Lidar(10, 0.0001, 360, 13.9, 0.0001 , 19, 18);
   
 
 }
@@ -44,7 +44,7 @@ void MainSensorFusion() {
   }
   if(!intersect){
     //output distance of lidar as well and angle it was detecting at for bubble band! 
-    dist[len-1]=L.sensorLoop();  
+    dist[len-1]=L.distaway/10;  
     //check which bubble the lidar is in and which sensor within this rnge and update it as well as the global array
     if(90>=angle && angle<54){
       if(dist[len-1]<dist[0]){

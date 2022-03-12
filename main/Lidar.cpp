@@ -6,6 +6,7 @@ Lidar::Lidar(float meaErr, float estErr, float r, float d, float variance, int t
 	range=r;
 	depressAngle=d;
 	//set pins tx and ar and motor contr
+	lidar.begin(Serial1);
 	pinMode(RPLIDAR_MOTOR, OUTPUT);
 }
 
@@ -20,6 +21,7 @@ float Lidar::getCenter(){
 
 float Lidar::sensorLoop(){
 	if (IS_OK(lidar.waitPoint())) {
+
 		float distance = lidar.getCurrentPoint().distance;         // distance value in mm unit
    		float angle = lidar.getCurrentPoint().angle;  // anglue value in degree
     		bool startBit = lidar.getCurrentPoint().startBit;  // whether this point is belong to a new scan
@@ -77,8 +79,10 @@ float Lidar::sensorLoop(){
 
     		// try to detect RPLIDAR...
     		rplidar_response_device_info_t info;
+		Serial.prinln("kjhgf");
     		if (IS_OK(lidar.getDeviceInfo(info, 100))) {
       			// detected...
+			Serial.prinln("detected");
       			lidar.startScan();
 
       			// start motor rotating at max allowed speed
