@@ -1,12 +1,10 @@
 // This file contains all of the code needed for the button press functionality
 // to work properly.
 
-// Define Constants
+// Import and Define Constants
+#include "system_diagnostic.h"
 #define YES 2
 #define NO 1
-
-// Set pins
-const int buttonPin = 13;
 
 typedef void (*Function) ();
 Function fun [3]={InputFirstDigit, InputSecondDigit, InputThirdDigit};
@@ -21,7 +19,7 @@ int previousState=0;
 int i;
 
 void ButtonSetup() {
-  pinMode(buttonPin, INPUT);
+  pinMode(SystemDiagnostic::BUTTON_PIN, INPUT);
 }
 
 void GetUserHeight() {
@@ -85,7 +83,7 @@ byte buttonStateInpt(){
   //Serial.println(place[i]);
   //NumberMessage(i);
   while(idleCount<30){
-    buttonState = digitalRead(buttonPin);
+    buttonState = digitalRead(SystemDiagnostic::BUTTON_PIN);
     //Serial.println(count);
     if(count==9 ){
       return count;  
@@ -93,7 +91,7 @@ byte buttonStateInpt(){
     /**else if(idleCount==30){
       Serial.print("is", count, "your output?")  ;
       delay(1000);
-      buttonState = digitalRead(buttonPin);
+      buttonState = digitalRead(SystemDiagnostic::BUTTON_PIN);
     }*/
   // check if the pushbutton is pressed. If it is, the buttonState is HIGH:
     if (buttonState == HIGH) {
@@ -122,7 +120,7 @@ byte buttonStateInptYN(){
   delay(2000);
   ButtonConfirmInput();
   while(idleCount<30){
-    buttonState = digitalRead(buttonPin);
+    buttonState = digitalRead(SystemDiagnostic::BUTTON_PIN);
     //Serial.println(count);
     if(count==9 ){
     
@@ -131,7 +129,7 @@ byte buttonStateInptYN(){
     /**else if(idleCount==30){
       Serial.print("is", count, "your output?")  ;
       delay(1000);
-      buttonState = digitalRead(buttonPin);
+      buttonState = digitalRead(SystemDiagnostic::BUTTON_PIN);
     }*/
   // check if the pushbutton is pressed. If it is, the buttonState is HIGH:
     if (buttonState == HIGH) {
