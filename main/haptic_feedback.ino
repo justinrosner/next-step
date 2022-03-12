@@ -3,7 +3,7 @@
 // Pin Mapping
 // TO-DO: We need to figure out what values we are going to put in here for the
 // new board
-int l_motor_pin = 3;
+int l_motor_pin = 5;
 int cl_motor_pin = 2;
 int c_motor_pin = 7;
 int cr_motor_pin = 10;
