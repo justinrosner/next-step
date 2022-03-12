@@ -4,6 +4,19 @@
 #include "Arduino.h"
 #include "system_diagnostic.h"
 
+// Initialize class constants
+const String SystemDiagnostic::NO_ERROR = "No Error";
+const String SystemDiagnostic::ERROR_LIDAR_NO_CONNECTION = "Cannot connect to LiDAR";
+const String SystemDiagnostic::ERROR_LIDAR_WRONG_DATA = "LiDAR returning false data";
+const String SystemDiagnostic::ERROR_LIDAR_BLOCKED = "LiDAR blocked";
+const String SystemDiagnostic::ERROR_LIDAR_BLOCKED_OR_NO_CONNECTION = "LiDAR blocked or disconnected";
+const String SystemDiagnostic::ERROR_ULTRASONIC_NO_CONNECTION = "Cannot connect to ultrasonic sensor";
+const String SystemDiagnostic::ERROR_ULTRASONIC_WRONG_DATA = "Ultrasonic sensor returning false data";
+const String SystemDiagnostic::ERROR_ULTRASONIC_BLOCKED = "Ultrasonic sensor blocked";
+const String SystemDiagnostic::ERROR_BUTTON_NO_CONNECTION = "Cannot connect to button";
+const String SystemDiagnostic::ERROR_UNKNOWN = "An unknown error occured";
+const float SystemDiagnostic::ULTRASONIC_SENSOR_RANGE[4] = {0, 3, 5, 1000};
+
 // Constructor method.
 SystemDiagnostic::SystemDiagnostic() {
   for (int i = 0; i < SENSOR_MAX; i++) {
@@ -13,6 +26,8 @@ SystemDiagnostic::SystemDiagnostic() {
   }
   lidarUnblocked = false;
   timeLidarUnblocked = 0;
+  buttonState = 0;
+  pinMode(BUTTON_PIN, INPUT);
 }
 
 // Manually set error.
@@ -109,7 +124,7 @@ void SystemDiagnostic::processError(String errorCode, SENSOR_ID id, byte increme
   // Determine whether the LiDAR error is blocked or no connection.
   else if (errorCode == ERROR_LIDAR_BLOCKED_OR_NO_CONNECTION) {
     // Check if its recently unblocked, if so, the issue is due to no connection.
-    if (lidarUnblocked == true && millis()-timeLidarUnblocked <= LIDAR_UNBLOCK_INTERVAL) {
+    if (lidarUnblocked == true && millis()-timeLidarUnblocked >= LIDAR_UNBLOCK_INTERVAL) {
       errorCode = ERROR_LIDAR_NO_CONNECTION;
     }
     // If it is not recently unblocked, first ask the user to try to unblock the LiDAR.
@@ -120,8 +135,6 @@ void SystemDiagnostic::processError(String errorCode, SENSOR_ID id, byte increme
   // Output the error message for LiDAR blocked and update the corresponding variables.
   if (errorCode == ERROR_LIDAR_BLOCKED) {
     outputErrorMessage(errorCode);
-    lidarUnblocked = true;
-    timeLidarUnblocked = millis();
   }
   // Output the error message for LiDAR no connection error and update the corresponding variables.
   else if (errorCode == ERROR_LIDAR_NO_CONNECTION) {
@@ -143,6 +156,25 @@ void SystemDiagnostic::processError(String errorCode, SENSOR_ID id, byte increme
 }
 
 // Output the error message.
-void outputErrorMessage(String errorCode) {
-  Serial.print(errorCode);
+void SystemDiagnostic::outputErrorMessage(String errorCode) {
+  Serial.println(errorCode);
+  if (errorCode == ERROR_LIDAR_BLOCKED) {
+    Serial.println("Speaker: Unblock the LiDAR and press the button once.");
+    detectButtonPress();
+    lidarUnblocked = true;
+    timeLidarUnblocked = millis();
+  }
+}
+
+// Detect the pressing of button
+void SystemDiagnostic::detectButtonPress() {
+  while(true) {
+    // Read the button input
+    buttonState = digitalRead(BUTTON_PIN);
+    // Check if the button is pressed
+    if (buttonState == HIGH) {
+      Serial.println("Resetted");
+      return;
+    }
+  }
 }
