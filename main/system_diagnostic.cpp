@@ -27,7 +27,6 @@ SystemDiagnostic::SystemDiagnostic() {
   lidarUnblocked = false;
   timeLidarUnblocked = 0;
   buttonState = 0;
-  pinMode(BUTTON_PIN, INPUT);
 }
 
 // Manually set error.
