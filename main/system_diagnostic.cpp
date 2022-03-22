@@ -201,12 +201,19 @@ void SystemDiagnostic::outputErrorMessage(String errorCode) {
 
 // Detect the pressing of button
 void SystemDiagnostic::detectButtonPress() {
+  unsigned long startTime = millis();
+  unsigned long currentTime;
   while(true) {
     // Read the button input
     buttonState = digitalRead(BUTTON_PIN);
     // Check if the button is pressed
     if (buttonState == HIGH) {
       Serial.println("Resetted");
+      return;
+    }
+    currentTime = millis();
+    if (currentTime - startTime > 60000) {
+      error(ERROR_BUTTON_NO_CONNECTION);
       return;
     }
   }
