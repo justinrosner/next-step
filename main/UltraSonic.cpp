@@ -35,11 +35,11 @@ float UltraSonic::sensorLoop() {
 	// Calculating the distance
   	distanceUS= duration*0.0343/2;
   			
-  	filt.nextEstimate(distanceUS);
+  	distaway=filt.nextEstimate(distanceUS);
 	//use angle of depress with height to make proer distance calc
 	//code
   	distaway=cos(depressAngle)*distanceUS;
-  	//*Serial.println("distance = " + String(filt.getDist()) + " ");
+  	//Serial.println("distance = " + String(filt.getDist()) + " ");
   	//*Serial.println("ultra sonic dist: "+ String(distanceUS) );
 	return distaway;
 }
