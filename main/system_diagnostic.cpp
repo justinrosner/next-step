@@ -6,6 +6,7 @@
 
 // Initialize class constants
 const String SystemDiagnostic::NO_ERROR = "No Error";
+const String SystemDiagnostic::ERROR_BUTTON_NO_CONNECTION = "Cannot connect to button";
 const String SystemDiagnostic::ERROR_LIDAR_NO_CONNECTION = "Cannot connect to LiDAR";
 const String SystemDiagnostic::ERROR_LIDAR_WRONG_DATA = "LiDAR returning false data";
 const String SystemDiagnostic::ERROR_LIDAR_BLOCKED = "LiDAR blocked";
@@ -13,9 +14,11 @@ const String SystemDiagnostic::ERROR_LIDAR_BLOCKED_OR_NO_CONNECTION = "LiDAR blo
 const String SystemDiagnostic::ERROR_ULTRASONIC_NO_CONNECTION = "Cannot connect to ultrasonic sensor";
 const String SystemDiagnostic::ERROR_ULTRASONIC_WRONG_DATA = "Ultrasonic sensor returning false data";
 const String SystemDiagnostic::ERROR_ULTRASONIC_BLOCKED = "Ultrasonic sensor blocked";
-const String SystemDiagnostic::ERROR_BUTTON_NO_CONNECTION = "Cannot connect to button";
+const String SystemDiagnostic::ERROR_ACCELEROMETER_NO_CONNECTION = "Cannot connect to accelerometer";
+const String SystemDiagnostic::ERROR_ACCELEROMETER_WRONG_DATA = "Accelerometer returning false data";
 const String SystemDiagnostic::ERROR_UNKNOWN = "An unknown error occured";
 const float SystemDiagnostic::ULTRASONIC_SENSOR_RANGE[4] = {0, 3, 5, 1000};
+const double SystemDiagnostic::ACCELEROMETER_RANGE[4] = {-550, 250, -0.1, 2};
 
 // Constructor method.
 SystemDiagnostic::SystemDiagnostic() {
@@ -24,8 +27,10 @@ SystemDiagnostic::SystemDiagnostic() {
     ultrasonicErrorCounter[i] = 0;
     ultrasonicPreviousReading[i] = -1;
   }
+  currentAccelerometerError = NO_ERROR;
   lidarUnblocked = false;
   timeLidarUnblocked = 0;
+  accelerometerErrorCounter = 0;
   buttonState = 0;
 }
 
@@ -60,7 +65,7 @@ void SystemDiagnostic::error(String errorCode, SENSOR_ID id, bool confirm) {
 
 // Check sensor data to determine whether there could be an error.
 bool SystemDiagnostic::checkSensor(float reading, SENSOR_ID id) {
-  if (id == SENSOR_NULL || id >= SENSOR_MAX || id <= SENSOR_MIN) {
+  if (id <= SENSOR_NULL || id >= SENSOR_MAX) {
     return false;
   }
   else if (reading >= ULTRASONIC_SENSOR_RANGE[0] || reading <= ULTRASONIC_SENSOR_RANGE[1]) {
@@ -84,6 +89,20 @@ bool SystemDiagnostic::checkSensor(float reading, SENSOR_ID id) {
   }
 }
 
+// Check accelerometer data to determine whether there could be an error.
+bool SystemDiagnostic::checkAccelerometer(double acceleration, double velocity) {
+  if (acceleration <= ACCELEROMETER_RANGE[0] || acceleration >= ACCELEROMETER_RANGE[1] 
+       || velocity <= ACCELEROMETER_RANGE[2] || velocity >= ACCELEROMETER_RANGE[3]) {
+    processError(ERROR_ACCELEROMETER_NO_CONNECTION);
+    return true;
+  }
+  else {
+    processError(NO_ERROR, SENSOR_ACCELEROMETER);
+    return false;
+  }
+}
+
+
 // Process the error to check whether its a false positive or actual error.
 void SystemDiagnostic::processError(String errorCode) {
   processError(errorCode, SENSOR_NULL, 1);
@@ -93,8 +112,12 @@ void SystemDiagnostic::processError(String errorCode, SENSOR_ID id) {
 }
 void SystemDiagnostic::processError(String errorCode, SENSOR_ID id, byte increment) {
   if (errorCode == NO_ERROR) {
+    if (id == SENSOR_ACCELEROMETER) {
+      currentAccelerometerError = NO_ERROR;
+      accelerometerErrorCounter = 0;
+    }
     //Reset the false positive counter on the ultrasonic sensor.
-    if (id != SENSOR_NULL) {
+    else if (id != SENSOR_NULL) {
       currentUltrasonicError[id] = NO_ERROR;
       ultrasonicErrorCounter[id] = 0;
     }
@@ -104,7 +127,7 @@ void SystemDiagnostic::processError(String errorCode, SENSOR_ID id, byte increme
   }
   // Determine whether the ultrasonic sensor error is a false positive or actual error.
   else if (errorCode == ERROR_ULTRASONIC_NO_CONNECTION || errorCode == ERROR_ULTRASONIC_WRONG_DATA || errorCode == ERROR_ULTRASONIC_BLOCKED) {
-    if (id != SENSOR_NULL) {
+    if (id <= SENSOR_NULL) {
       if (currentUltrasonicError[id] != errorCode) {
         currentUltrasonicError[id] = errorCode;
         ultrasonicErrorCounter[id] = increment;
@@ -123,7 +146,7 @@ void SystemDiagnostic::processError(String errorCode, SENSOR_ID id, byte increme
   // Determine whether the LiDAR error is blocked or no connection.
   else if (errorCode == ERROR_LIDAR_BLOCKED_OR_NO_CONNECTION) {
     // Check if its recently unblocked, if so, the issue is due to no connection.
-    if (lidarUnblocked == true && millis()-timeLidarUnblocked >= LIDAR_UNBLOCK_INTERVAL) {
+    if (lidarUnblocked == true && millis()-timeLidarUnblocked <= LIDAR_UNBLOCK_INTERVAL) {
       errorCode = ERROR_LIDAR_NO_CONNECTION;
     }
     // If it is not recently unblocked, first ask the user to try to unblock the LiDAR.
@@ -134,27 +157,46 @@ void SystemDiagnostic::processError(String errorCode, SENSOR_ID id, byte increme
   // Output the error message for LiDAR blocked and update the corresponding variables.
   if (errorCode == ERROR_LIDAR_BLOCKED) {
     outputErrorMessage(errorCode);
+    return;
   }
   // Output the error message for LiDAR no connection error and update the corresponding variables.
   else if (errorCode == ERROR_LIDAR_NO_CONNECTION) {
     outputErrorMessage(errorCode);
     lidarUnblocked = false;
+    return;
   }
   // Output the error message for LiDAR wrong data error.
   else if (errorCode == ERROR_LIDAR_WRONG_DATA) {
     outputErrorMessage(errorCode);
+    return;
+  }
+  // Determine whether the accelerometer error is a false positive or actual error.
+  else if (errorCode == ERROR_ACCELEROMETER_NO_CONNECTION || errorCode == ERROR_ACCELEROMETER_WRONG_DATA) {
+    if (currentAccelerometerError != errorCode) {
+      currentAccelerometerError = errorCode;
+      accelerometerErrorCounter = increment;
+    }
+    else {
+      accelerometerErrorCounter += increment;
+    }
+    if (accelerometerErrorCounter >= ERROR_COUNTER_THRESHOLD) {
+      outputErrorMessage(errorCode);
+    }
+    return;
   }
   // Output the error message for button connection issue.
   else if (errorCode == ERROR_BUTTON_NO_CONNECTION || errorCode == ERROR_UNKNOWN) {
     outputErrorMessage(errorCode);
+    return;
   }
   // Output the error message for unknown error.
   else if (errorCode == ERROR_UNKNOWN) {
     outputErrorMessage(errorCode);
+    return;
   }
 }
 
-// Output the error message.
+// Output the error to user.
 void SystemDiagnostic::outputErrorMessage(String errorCode) {
   Serial.println(errorCode);
   if (errorCode == ERROR_LIDAR_BLOCKED) {
@@ -167,12 +209,19 @@ void SystemDiagnostic::outputErrorMessage(String errorCode) {
 
 // Detect the pressing of button
 void SystemDiagnostic::detectButtonPress() {
+  unsigned long startTime = millis();
+  unsigned long currentTime;
   while(true) {
     // Read the button input
     buttonState = digitalRead(BUTTON_PIN);
     // Check if the button is pressed
     if (buttonState == HIGH) {
       Serial.println("Resetted");
+      return;
+    }
+    currentTime = millis();
+    if (currentTime - startTime > 60000) {
+      error(ERROR_BUTTON_NO_CONNECTION);
       return;
     }
   }
