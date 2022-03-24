@@ -12,12 +12,12 @@ UltraSonic s [len];
 void fusionSetup() {
   // put your setup code here, to run once:
   
-  s[0]=UltraSonic(30, 31, 15, 12.6, 10, 0.0001, 0.999, 72);//right
-  s[1]=UltraSonic(28, 29, 15, 12.6, 10, 0.0001, 0.999, 36); //centerright
-  s[2]=UltraSonic(26, 27, 15, 12.6, 10, 0.0001, 0.999, 0); //center
-  s[3]=UltraSonic(24, 25, 15, 12.6, 10, 0.0001, 0.999, 324); //centerleft
-  s[4]=UltraSonic(22, 23, 15, 12.6, 10, 0.0001, 0.999, 288); //left
-  L=Lidar(10, 0.0001, 360, 13.9, 0.0001 , 19, 18);
+  s[SystemDiagnostic::SENSOR_RIGHT]=UltraSonic(30, 31, 15, 12.6, 10, 0.0001, 0.999, 72, SystemDiagnostic::SENSOR_RIGHT, diagnosticModule);//right
+  s[SystemDiagnostic::SENSOR_CENTER_RIGHT]=UltraSonic(28, 29, 15, 12.6, 10, 0.0001, 0.999, 36, SystemDiagnostic::SENSOR_CENTER_RIGHT, diagnosticModule); //centerright
+  s[SystemDiagnostic::SENSOR_CENTER]=UltraSonic(26, 27, 15, 12.6, 10, 0.0001, 0.999, 0, SystemDiagnostic::SENSOR_CENTER, diagnosticModule); //center
+  s[SystemDiagnostic::SENSOR_CENTER_LEFT]=UltraSonic(24, 25, 15, 12.6, 10, 0.0001, 0.999, 324, SystemDiagnostic::SENSOR_CENTER_LEFT, diagnosticModule); //centerleft
+  s[SystemDiagnostic::SENSOR_LEFT]=UltraSonic(22, 23, 15, 12.6, 10, 0.0001, 0.999, 288, SystemDiagnostic::SENSOR_LEFT, diagnosticModule); //left
+  L=Lidar(10, 0.0001, 360, 13.9, 0.0001 , 19, 18, diagnosticModule);
   
 
 }

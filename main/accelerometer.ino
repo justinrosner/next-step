@@ -33,6 +33,7 @@ double getXAcceleration() {
                                                accelerometer_readings.index,
                                                acceleration);
     Serial.println("X Accel: " + String(filtered_acceleration) + " ");
+    bool possibleError = diagnosticModule.checkAccelerometer(filtered_acceleration, velocity);
     return filtered_acceleration;
 }
 

@@ -26,11 +26,11 @@ class SystemDiagnostic {
       SENSOR_MIN = -3,
       SENSOR_ACCELEROMETER = -2,
       SENSOR_NULL = -1,
-      SENSOR_LEFT,
-      SENSOR_FRONT_LEFT,
-      SENSOR_FRONT,
-      SENSOR_FRONT_RIGHT,
       SENSOR_RIGHT,
+      SENSOR_CENTER_RIGHT,
+      SENSOR_CENTER,
+      SENSOR_CENTER_LEFT,
+      SENSOR_LEFT,
       SENSOR_MAX
     };
     void error(String);
