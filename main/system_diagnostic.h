@@ -9,7 +9,7 @@
 class SystemDiagnostic {
   public:
     SystemDiagnostic();
-    static const int BUTTON_PIN = 13;
+    static const int BUTTON_PIN = 8;
     static const String NO_ERROR;
     static const String ERROR_UNKNOWN;
     static const String ERROR_BUTTON_NO_CONNECTION;

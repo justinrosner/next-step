@@ -14,14 +14,18 @@ SystemDiagnostic diagnosticModule;
 
 void setup() {
   Serial.begin(9600);
-  ButtonSetup();
+  //ButtonSetup();
   //UltraSetup();
-  fusionSetup();
+  //fusionSetup();
   //diagnosticModule = *(new SystemDiagnostic());
   //GetUserHeight();
+  HapticMotorSetup();
+
+  DriveCenterMotor();
   
 }
 
 void loop() {
-  MainGuidance();
+  //MainGuidance();
+
 }
