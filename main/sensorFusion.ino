@@ -12,11 +12,14 @@ UltraSonic s [len];
 void fusionSetup() {
   // put your setup code here, to run once:
   
-  s[0]=UltraSonic(28, 29, 15, 12.6, 10, 0.0001, 0.999, 72);//right
-  s[1]=UltraSonic(26, 27, 15, 12.6, 10, 0.0001, 0.999, 36); //centerright
-  s[2]=UltraSonic(24, 25, 15, 12.6, 10, 0.0001, 0.999, 0); //center
-  s[3]=UltraSonic(22, 23, 15, 12.6, 10, 0.0001, 0.999, 324); //centerleft
-  s[4]=UltraSonic(30, 31, 15, 12.6, 10, 0.0001, 0.999, 288); //left
+  
+  
+  
+  s[0]=UltraSonic(22, 23, 15, 12.6, 10, 0.0001, 0.999, 0); //left
+  s[1]=UltraSonic(24, 25, 15, 12.6, 10, 0.0001, 0.999, 36); //centerleft
+  s[2]=UltraSonic(26, 27, 15, 12.6, 10, 0.0001, 0.999, 72); //center
+  s[3]=UltraSonic(28, 29, 15, 12.6, 10, 0.0001, 0.999, 288);//centerright
+  s[4]=UltraSonic(30, 31, 15, 12.6, 10, 0.0001, 0.999, 324); //right
   L=Lidar(10, 0.0001, 360, 13.9, 0.0001 , 19, 18);
   
 

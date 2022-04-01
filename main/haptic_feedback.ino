@@ -46,4 +46,3 @@ void DriveRightMotor() {
     delay(500);                      // delay half a second
     digitalWrite(r_motor_pin, LOW);  //stop vibrating
 }
-
