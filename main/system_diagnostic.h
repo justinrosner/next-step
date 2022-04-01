@@ -22,14 +22,15 @@ class SystemDiagnostic {
     static const String ERROR_ULTRASONIC_BLOCKED;
     static const String ERROR_ACCELEROMETER_NO_CONNECTION;
     static const String ERROR_ACCELEROMETER_WRONG_DATA;
-    enum SENSOR_ID {
-      SENSOR_MIN = -2,
+    enum SENSOR_ID { // Place non-ultrasonic sensor id between null and min.
+      SENSOR_MIN = -3,
+      SENSOR_ACCELEROMETER = -2,
       SENSOR_NULL = -1,
-      SENSOR_LEFT,
-      SENSOR_FRONT_LEFT,
-      SENSOR_FRONT,
-      SENSOR_FRONT_RIGHT,
       SENSOR_RIGHT,
+      SENSOR_CENTER_RIGHT,
+      SENSOR_CENTER,
+      SENSOR_CENTER_LEFT,
+      SENSOR_LEFT,
       SENSOR_MAX
     };
     void error(String);
@@ -42,7 +43,7 @@ class SystemDiagnostic {
     static const float ULTRASONIC_SENSOR_RANGE[4];
     static const double ACCELEROMETER_RANGE[4];
     static const byte ERROR_COUNTER_THRESHOLD = 5;
-    static const unsigned long LIDAR_UNBLOCK_INTERVAL = 5*60*1000UL;
+    static const unsigned long LIDAR_UNBLOCK_INTERVAL = 300000; // 5 minutes
     String currentUltrasonicError[SENSOR_MAX];
     byte ultrasonicErrorCounter[SENSOR_MAX];
     float ultrasonicPreviousReading[SENSOR_MAX];
