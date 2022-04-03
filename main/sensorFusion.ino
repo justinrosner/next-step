@@ -11,7 +11,7 @@ Lidar L; //360
 UltraSonic s [len];
 void fusionSetup() {
   // put your setup code here, to run once:
-  
+  Serial.println("hello");
   s[SystemDiagnostic::SENSOR_RIGHT]=UltraSonic(30, 31, 15, 12.6, 10, 0.0001, 0.999, 72, SystemDiagnostic::SENSOR_RIGHT, diagnosticModule);//right
   s[SystemDiagnostic::SENSOR_CENTER_RIGHT]=UltraSonic(28, 29, 15, 12.6, 10, 0.0001, 0.999, 36, SystemDiagnostic::SENSOR_CENTER_RIGHT, diagnosticModule); //centerright
   s[SystemDiagnostic::SENSOR_CENTER]=UltraSonic(26, 27, 15, 12.6, 10, 0.0001, 0.999, 0, SystemDiagnostic::SENSOR_CENTER, diagnosticModule); //center

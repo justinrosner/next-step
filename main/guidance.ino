@@ -8,7 +8,7 @@
 
 // Constants used in the "Bubble Rebound Algorithm"
 double bubble_boundary[N];
-const double ki = 5;  // This is a scaling constant. Try values between [0.2-3]
+const double ki = 3;  // This is a scaling constant. Try values between [0.2-3]
 const double alpha_0 = M_PI / N;
 
 // This function updates the bubble_boundary array

@@ -4,7 +4,7 @@
 
 // Header files needed for Talkie software to work
 
-#include <arduino.h>
+#include <Arduino.h>
 #include "Talkie.h"
 #include "Vocab_US_Large.h"
 #include "Vocab_Special.h"

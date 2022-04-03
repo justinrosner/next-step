@@ -8,8 +8,10 @@ Lidar::Lidar(float meaErr, float estErr, float r, float d, float variance, int t
 	//set pins tx and ar and motor contr
 	lidar.begin(Serial1);
 	pinMode(RPLIDAR_MOTOR, OUTPUT);
-  Serial1.setTimeout(1000);
+  //Serial1.setTimeout(1000);
+   
   diagnosticModule = dm;
+ 
 }
 
 Lidar::~Lidar(){
@@ -22,6 +24,7 @@ float Lidar::getCenter(){
 }
 
 float Lidar::sensorLoop(){
+  
 	if (IS_OK(lidar.waitPoint())) {
     // Call this function when timeout:
     // diagnosticModule.error(SystemDiagnostic::ERROR_LIDAR_BLOCKED_OR_NO_CONNECTION);

@@ -17,11 +17,16 @@ void setup() {
   ButtonSetup();
   //UltraSetup();
   fusionSetup();
-  //diagnosticModule = *(new SystemDiagnostic());
+  diagnosticModule = *(new SystemDiagnostic());
   //GetUserHeight();
-  
+  DriveLeftMotor();
+  DriveCenterLeftMotor();
+  DriveCenterMotor();
+  DriveCenterRightMotor();
+  DriveRightMotor();
 }
 
 void loop() {
   MainGuidance();
+ 
 }

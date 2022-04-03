@@ -4,24 +4,43 @@
 #include "Arduino.h"
 #include "system_diagnostic.h"
 
-// Initialize class constants
-const String SystemDiagnostic::NO_ERROR = "No Error";
-const String SystemDiagnostic::ERROR_BUTTON_NO_CONNECTION = "Cannot connect to button";
-const String SystemDiagnostic::ERROR_LIDAR_NO_CONNECTION = "Cannot connect to LiDAR";
-const String SystemDiagnostic::ERROR_LIDAR_WRONG_DATA = "LiDAR returning false data";
-const String SystemDiagnostic::ERROR_LIDAR_BLOCKED = "LiDAR blocked";
-const String SystemDiagnostic::ERROR_LIDAR_BLOCKED_OR_NO_CONNECTION = "LiDAR blocked or disconnected";
-const String SystemDiagnostic::ERROR_ULTRASONIC_NO_CONNECTION = "Cannot connect to ultrasonic sensor";
-const String SystemDiagnostic::ERROR_ULTRASONIC_WRONG_DATA = "Ultrasonic sensor returning false data";
-const String SystemDiagnostic::ERROR_ULTRASONIC_BLOCKED = "Ultrasonic sensor blocked";
-const String SystemDiagnostic::ERROR_ACCELEROMETER_NO_CONNECTION = "Cannot connect to accelerometer";
-const String SystemDiagnostic::ERROR_ACCELEROMETER_WRONG_DATA = "Accelerometer returning false data";
-const String SystemDiagnostic::ERROR_UNKNOWN = "An unknown error occured";
-const float SystemDiagnostic::ULTRASONIC_SENSOR_RANGE[4] = {0, 3, 5, 1000};
-const double SystemDiagnostic::ACCELEROMETER_RANGE[4] = {-550, 250, -0.1, 2};
+  String SystemDiagnostic::NO_ERROR = "No Error";
+  String SystemDiagnostic::ERROR_BUTTON_NO_CONNECTION = "Cannot connect to button";
+  String SystemDiagnostic::ERROR_LIDAR_NO_CONNECTION = "Cannot connect to LiDAR";
+  String SystemDiagnostic::ERROR_LIDAR_WRONG_DATA = "LiDAR returning false data";
+  String SystemDiagnostic::ERROR_LIDAR_BLOCKED = "LiDAR blocked";
+  String SystemDiagnostic::ERROR_LIDAR_BLOCKED_OR_NO_CONNECTION = "LiDAR blocked or disconnected";
+  String SystemDiagnostic::ERROR_ULTRASONIC_NO_CONNECTION = "Cannot connect to ultrasonic sensor";
+  String SystemDiagnostic::ERROR_ULTRASONIC_WRONG_DATA = "Ultrasonic sensor returning false data";
+  String SystemDiagnostic::ERROR_ULTRASONIC_BLOCKED = "Ultrasonic sensor blocked";
+  String SystemDiagnostic::ERROR_ACCELEROMETER_NO_CONNECTION = "Cannot connect to accelerometer";
+  String SystemDiagnostic::ERROR_ACCELEROMETER_WRONG_DATA = "Accelerometer returning false data";
+  String SystemDiagnostic::ERROR_UNKNOWN = "An unknown error occured";
+  float SystemDiagnostic::ULTRASONIC_SENSOR_RANGE[4] = {0, 3, 5, 1000};
+  double SystemDiagnostic::ACCELEROMETER_RANGE[4] = {-500, 250, -0.1, 2};
 
 // Constructor method.
 SystemDiagnostic::SystemDiagnostic() {
+  NO_ERROR = "No Error";
+  ERROR_BUTTON_NO_CONNECTION = "Cannot connect to button";
+  ERROR_LIDAR_NO_CONNECTION = "Cannot connect to LiDAR";
+  ERROR_LIDAR_WRONG_DATA = "LiDAR returning false data";
+  ERROR_LIDAR_BLOCKED_OR_NO_CONNECTION = "LiDAR blocked or disconnected";
+  ERROR_LIDAR_BLOCKED = "LiDAR blocked";
+  ERROR_ULTRASONIC_NO_CONNECTION = "Cannot connect to ultrasonic sensor";
+  ERROR_ULTRASONIC_WRONG_DATA = "Ultrasonic sensor returning false data";
+  ERROR_ULTRASONIC_BLOCKED = "Ultrasonic sensor blocked";;
+  ERROR_ACCELEROMETER_NO_CONNECTION = "Cannot connect to accelerometer";
+  ERROR_ACCELEROMETER_WRONG_DATA = "Accelerometer returning false data";
+  ERROR_UNKNOWN = "An unknown error occured";
+  ULTRASONIC_SENSOR_RANGE[0] = 0;
+  ULTRASONIC_SENSOR_RANGE[1] = 3;
+  ULTRASONIC_SENSOR_RANGE[2] = 5;
+  ULTRASONIC_SENSOR_RANGE[3] = 1000;
+  ACCELEROMETER_RANGE[0] = -500;
+  ACCELEROMETER_RANGE[1] = 250;
+  ACCELEROMETER_RANGE[2] = -0.1;
+  ACCELEROMETER_RANGE[3] = 2;
   for (int i = 0; i < SENSOR_MAX; i++) {
     currentUltrasonicError[i] = NO_ERROR;
     ultrasonicErrorCounter[i] = 0;
@@ -154,6 +173,8 @@ void SystemDiagnostic::processError(String errorCode, SENSOR_ID id, byte increme
       errorCode = ERROR_LIDAR_BLOCKED;
     }
   }
+  Serial.print("Error: ");
+  Serial.println(errorCode);
   // Output the error message for LiDAR blocked and update the corresponding variables.
   if (errorCode == ERROR_LIDAR_BLOCKED) {
     outputErrorMessage(errorCode);
@@ -203,7 +224,7 @@ void SystemDiagnostic::outputErrorMessage(String errorCode) {
     Serial.println("Speaker: Unblock the LiDAR and press the button once.");
     detectButtonPress();
     lidarUnblocked = true;
-    timeLidarUnblocked = millis();
+    timeLidarUnblocked = millis();  
   }
 }
 

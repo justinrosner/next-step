@@ -1,4 +1,5 @@
-// This file contains all of the code relating to gathering velocity data from
+/*  
+ // This file contains all of the code relating to gathering velocity data from
 // the accelerometer
 #include "Kalman.h"
 // Constants for moving point average
@@ -33,7 +34,7 @@ double getXAcceleration() {
     /*double filtered_acceleration = MovingPointAverage(accelerometer_readings.sum,
                                                accelerometer_readings.reading,
                                                accelerometer_readings.index,
-                                               acceleration);*/
+                                               acceleration);
     double filtered_acceleration = filt.nextEstimate(acceleration);
     //Serial.println("X Accel: " + String(filtered_acceleration) + " ");
     return filtered_acceleration;
@@ -65,3 +66,4 @@ void AccelLoop() {
   //getXAcceleration();
   UpdateVelocity();
 }
+*/
