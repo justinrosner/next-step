@@ -8,7 +8,7 @@
 
 // Constants used in the "Bubble Rebound Algorithm"
 double bubble_boundary[N];
-const double ki = 5;  // This is a scaling constant. Try values between [0.2-3]
+const double ki = 1.5;  // This is a scaling constant. Try values between [0.2-3]
 const double alpha_0 = M_PI / N;
 
 // This function updates the bubble_boundary array
@@ -75,7 +75,7 @@ float ComputeReboundAngle() {
 // sensor covers and as the sectors increase they move across the sensors until
 // you get to the last sector (the left ultrasonic sensor)
 int CalculateSector(float rebound_angle) {
-  //Serial.println("Rebound Angle = " + String(rebound_angle) + " ");
+  Serial.println("Rebound Angle = " + String(rebound_angle) + " ");
   // Falls in the first sector (where the left sensor is)
   if (rebound_angle >= 0 && rebound_angle < 0.62) {
     Serial.println("LEFT BUZZER");

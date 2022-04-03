@@ -29,50 +29,47 @@ void GetUserHeight() {
   FindingButtonMessageButton();
   delay(1000);
   ButtonInputExample();
-  while (true) {
-    //Read the state of the pushbutton value
-    height=0;
-    for(i=0;i<3;i++){
-      while(true){
-        buttonStateInpt();
-        /*Serial.println(count);
-        Serial.print("is " );
-        Serial.print(count);
-        Serial.print(" your  ");
-        Serial.print(place[i] );
-        Serial.println(" value?");
-        */
-        DidYouInput();
-        Serial.println("top");
-        NumberMessage((int)count);
-        Serial.println("bottom");
-        number[i]=count;
-        //Serial.print("number is::");
-        //Serial.println(number[i]);
-        //count=0;
-        buttonStateInptYN();
-        if(count==YES){
-          //height=height+((int)number)*pow(10, (2-i));
-          Serial.println("yes");
-          break;
-        }
-        count=0;
+  //Read the state of the pushbutton value
+  height=0;
+  for(i=0;i<3;i++){
+    while(true){
+      buttonStateInpt();
+      /*Serial.println(count);
+      Serial.print("is " );
+      Serial.print(count);
+      Serial.print(" your  ");
+      Serial.print(place[i] );
+      Serial.println(" value?");
+      */
+      DidYouInput();
+      Serial.println("top");
+      NumberMessage((int)count);
+      Serial.println("bottom");
+      number[i]=count;
+      //Serial.print("number is::");
+      //Serial.println(number[i]);
+      //count=0;
+      buttonStateInptYN();
+      if(count==YES){
+        //height=height+((int)number)*pow(10, (2-i));
+        Serial.println("yes");
+        break;
       }
       count=0;
     }
-    //Serial.print("is your Height ");
-    //Serial.print(number[0]);
-    //Serial.print(number[1]);
-    //Serial.println(number[2]);
-    DidYouInput();
-    NumberMessage((int)number[0]);
-    NumberMessage((int)number[1]);
-    NumberMessage((int)number[2]);
-    buttonStateInptYN();
-    if (count==YES){
-      ReadyMessage();
-      return;
-    }
+    count=0;
+  }
+  //Serial.print("is your Height ");
+  //Serial.print(number[0]);
+  //Serial.print(number[1]);
+  //Serial.println(number[2]);
+  DidYouInput();
+  NumberMessage((int)number[0]);
+  NumberMessage((int)number[1]);
+  NumberMessage((int)number[2]);
+  buttonStateInptYN();
+  if (count==YES){
+    ReadyMessage();
   }
 }
 
@@ -117,50 +114,39 @@ byte buttonStateInpt(){
 }
 
 byte buttonStateInptYN(){
-  byte noInputCount = 0;
-  while (true) {
-    count=0;
-    byte idleCount=0;
-    //Serial.println("YES OR NO");
-    delay(2000);
-    ButtonConfirmInput();
-    while(idleCount<30){
+  count=0;
+  byte idleCount=0;
+  //Serial.println("YES OR NO");
+  delay(2000);
+  ButtonConfirmInput();
+  while(idleCount<30){
+    buttonState = digitalRead(SystemDiagnostic::BUTTON_PIN);
+    //Serial.println(count);
+    if(count==9 ){
+    
+      return count;  
+    }
+    /**else if(idleCount==30){
+      Serial.print("is", count, "your output?")  ;
+      delay(1000);
       buttonState = digitalRead(SystemDiagnostic::BUTTON_PIN);
-      //Serial.println(count);
-      if(count==9 ){
-        return count;  
+    }*/
+  // check if the pushbutton is pressed. If it is, the buttonState is HIGH:
+    if (buttonState == HIGH) {
+    // turn LED on:
+    //digitalWrite(ledPin, HIGH);
+      if(previousState!=buttonState){
+        count++;  
+        idleCount=0;
       }
-      /**else if(idleCount==30){
-        Serial.print("is", count, "your output?")  ;
-        delay(1000);
-        buttonState = digitalRead(SystemDiagnostic::BUTTON_PIN);
-      }*/
-    // check if the pushbutton is pressed. If it is, the buttonState is HIGH:
-      if (buttonState == HIGH) {
-      // turn LED on:
-      //digitalWrite(ledPin, HIGH);
-        if(previousState!=buttonState){
-          count++;  
-          idleCount=0;
-        }
-      } else {
-      // turn LED off:
-      //digitalWrite(ledPin, LOW);
-        idleCount++;
-      }
-      delay(100);
-      previousState=buttonState;  
+    } else {
+    // turn LED off:
+    //digitalWrite(ledPin, LOW);
+      idleCount++;
     }
-    //Serial.println("ending 3 sec idle");
-    if (count != 0) {
-      return count;
-    }
-    else {
-      noInputCount++;
-      if (noInputCount >= 3) {
-        diagnosticModule.error(SystemDiagnostic::ERROR_BUTTON_NO_CONNECTION);
-        return 0;
-      }
-    }
+    delay(100);
+    previousState=buttonState;  
   }
+  //Serial.println("ending 3 sec idle");
+  return count;
 }

@@ -1,6 +1,6 @@
 #include "Lidar.h"
 Lidar::Lidar(){}
-Lidar::Lidar(float meaErr, float estErr, float r, float d, float variance, int tx, int rx, SystemDiagnostic dm){
+Lidar::Lidar(float meaErr, float estErr, float r, float d, float variance, int tx, int rx){
 	filt.setVar(meaErr, estErr);
 	var=variance;
 	range=r;
@@ -8,8 +8,6 @@ Lidar::Lidar(float meaErr, float estErr, float r, float d, float variance, int t
 	//set pins tx and ar and motor contr
 	lidar.begin(Serial1);
 	pinMode(RPLIDAR_MOTOR, OUTPUT);
-  Serial1.setTimeout(1000);
-  diagnosticModule = dm;
 }
 
 Lidar::~Lidar(){
@@ -23,9 +21,8 @@ float Lidar::getCenter(){
 
 float Lidar::sensorLoop(){
 	if (IS_OK(lidar.waitPoint())) {
-    // Call this function when timeout:
-    // diagnosticModule.error(SystemDiagnostic::ERROR_LIDAR_BLOCKED_OR_NO_CONNECTION);
-		float distance = lidar.getCurrentPoint().distance; // distance value in mm unit
+
+		float distance = lidar.getCurrentPoint().distance;         // distance value in mm unit
    		float angle = lidar.getCurrentPoint().angle;  // anglue value in degree
     		bool startBit = lidar.getCurrentPoint().startBit;  // whether this point is belong to a new scan
     		byte quality =lidar.getCurrentPoint().quality;  // quality of the current measurement

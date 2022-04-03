@@ -2,7 +2,7 @@
 
 UltraSonic::UltraSonic(){}
 
-UltraSonic::UltraSonic(int tr, int ec, int a, float d, float meaErr, float estErr, float variance, int centerAngle, SystemDiagnostic::SENSOR_ID id, SystemDiagnostic dm){
+UltraSonic::UltraSonic(int tr, int ec, int a, float d, float meaErr, float estErr, float variance, int centerAngle){
 	filt.setVar(meaErr, estErr);
 	range=a;
 	depressAngle=d;
@@ -12,9 +12,9 @@ UltraSonic::UltraSonic(int tr, int ec, int a, float d, float meaErr, float estEr
 	pinMode(trig, OUTPUT);
   	pinMode(echo, INPUT);
 	direction=centerAngle;
-  sensorID = id;
-  diagnosticModule = dm;
 }
+
+
 
 float UltraSonic::getCenter(){
 	return direction;
@@ -35,12 +35,11 @@ float UltraSonic::sensorLoop() {
 	// Calculating the distance
   	distanceUS= duration*0.0343/2;
   			
-  	distaway=filt.nextEstimate(distanceUS);
+  	filt.nextEstimate(distanceUS);
 	//use angle of depress with height to make proer distance calc
-    bool possibleError = diagnosticModule.checkSensor(distaway, sensorID);
 	//code
   	distaway=cos(depressAngle)*distanceUS;
-  	//Serial.println("distance = " + String(filt.getDist()) + " ");
+  	//*Serial.println("distance = " + String(filt.getDist()) + " ");
   	//*Serial.println("ultra sonic dist: "+ String(distanceUS) );
 	return distaway;
 }
