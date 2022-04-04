@@ -24,6 +24,7 @@ void setup() {
   DriveCenterMotor();
   DriveCenterRightMotor();
   DriveRightMotor();
+  Serial.println("Finished Setup");
 }
 
 void loop() {

@@ -10,18 +10,20 @@ class SystemDiagnostic {
   public:
     SystemDiagnostic();
     static const int BUTTON_PIN = 13;
-    static String NO_ERROR;
-    static String ERROR_UNKNOWN;
-    static String ERROR_BUTTON_NO_CONNECTION;
-    static String ERROR_LIDAR_NO_CONNECTION;
-    static String ERROR_LIDAR_WRONG_DATA;
-    static String ERROR_LIDAR_BLOCKED;
-    static String ERROR_LIDAR_BLOCKED_OR_NO_CONNECTION;
-    static String ERROR_ULTRASONIC_NO_CONNECTION;
-    static String ERROR_ULTRASONIC_WRONG_DATA;
-    static String ERROR_ULTRASONIC_BLOCKED;
-    static String ERROR_ACCELEROMETER_NO_CONNECTION;
-    static String ERROR_ACCELEROMETER_WRONG_DATA;
+    enum ERROR_CODE {
+      NO_ERROR,
+      ERROR_UNKNOWN,
+      ERROR_BUTTON_NO_CONNECTION,
+      ERROR_LIDAR_NO_CONNECTION,
+      ERROR_LIDAR_WRONG_DATA,
+      ERROR_LIDAR_BLOCKED,
+      ERROR_LIDAR_BLOCKED_OR_NO_CONNECTION,
+      ERROR_ULTRASONIC_NO_CONNECTION,
+      ERROR_ULTRASONIC_WRONG_DATA,
+      ERROR_ULTRASONIC_BLOCKED,
+      ERROR_ACCELEROMETER_NO_CONNECTION,
+      ERROR_ACCELEROMETER_WRONG_DATA
+    };
     enum SENSOR_ID { // Place non-ultrasonic sensor id between null and min.
       SENSOR_MIN = -3,
       SENSOR_ACCELEROMETER = -2,
@@ -33,10 +35,10 @@ class SystemDiagnostic {
       SENSOR_LEFT,
       SENSOR_MAX
     };
-    void error(String);
-    void error(String, bool);
-    void error(String, SENSOR_ID);
-    void error(String, SENSOR_ID, bool);
+    void error(ERROR_CODE);
+    void error(ERROR_CODE, bool);
+    void error(ERROR_CODE, SENSOR_ID);
+    void error(ERROR_CODE, SENSOR_ID, bool);
     bool checkSensor(float, SENSOR_ID);
     bool checkAccelerometer(double, double);
   private:
@@ -44,18 +46,18 @@ class SystemDiagnostic {
     static double ACCELEROMETER_RANGE[4];
     static const byte ERROR_COUNTER_THRESHOLD = 5;
     static const unsigned long LIDAR_UNBLOCK_INTERVAL = 300000; // 5 minutes
-    String currentUltrasonicError[SENSOR_MAX];
+    ERROR_CODE currentUltrasonicError[SENSOR_MAX];
     byte ultrasonicErrorCounter[SENSOR_MAX];
     float ultrasonicPreviousReading[SENSOR_MAX];
     unsigned long timeLidarUnblocked;
     bool lidarUnblocked;
-    String currentAccelerometerError;
+    ERROR_CODE currentAccelerometerError;
     byte accelerometerErrorCounter;
     int buttonState;
-    void processError(String);
-    void processError(String, SENSOR_ID);
-    void processError(String, SENSOR_ID, byte);
-    void outputErrorMessage(String);
+    void processError(ERROR_CODE);
+    void processError(ERROR_CODE, SENSOR_ID);
+    void processError(ERROR_CODE, SENSOR_ID, byte);
+    void outputErrorMessage(ERROR_CODE);
     void detectButtonPress();
 };
 

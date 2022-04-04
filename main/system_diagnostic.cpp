@@ -4,35 +4,11 @@
 #include "Arduino.h"
 #include "system_diagnostic.h"
 
-  String SystemDiagnostic::NO_ERROR = "No Error";
-  String SystemDiagnostic::ERROR_BUTTON_NO_CONNECTION = "Cannot connect to button";
-  String SystemDiagnostic::ERROR_LIDAR_NO_CONNECTION = "Cannot connect to LiDAR";
-  String SystemDiagnostic::ERROR_LIDAR_WRONG_DATA = "LiDAR returning false data";
-  String SystemDiagnostic::ERROR_LIDAR_BLOCKED = "LiDAR blocked";
-  String SystemDiagnostic::ERROR_LIDAR_BLOCKED_OR_NO_CONNECTION = "LiDAR blocked or disconnected";
-  String SystemDiagnostic::ERROR_ULTRASONIC_NO_CONNECTION = "Cannot connect to ultrasonic sensor";
-  String SystemDiagnostic::ERROR_ULTRASONIC_WRONG_DATA = "Ultrasonic sensor returning false data";
-  String SystemDiagnostic::ERROR_ULTRASONIC_BLOCKED = "Ultrasonic sensor blocked";
-  String SystemDiagnostic::ERROR_ACCELEROMETER_NO_CONNECTION = "Cannot connect to accelerometer";
-  String SystemDiagnostic::ERROR_ACCELEROMETER_WRONG_DATA = "Accelerometer returning false data";
-  String SystemDiagnostic::ERROR_UNKNOWN = "An unknown error occured";
-  float SystemDiagnostic::ULTRASONIC_SENSOR_RANGE[4] = {0, 3, 5, 1000};
-  double SystemDiagnostic::ACCELEROMETER_RANGE[4] = {-500, 250, -0.1, 2};
+float SystemDiagnostic::ULTRASONIC_SENSOR_RANGE[4] = {0, 3, 5, 1000};
+double SystemDiagnostic::ACCELEROMETER_RANGE[4] = {-500, 250, -0.1, 2};
 
 // Constructor method.
 SystemDiagnostic::SystemDiagnostic() {
-  NO_ERROR = "No Error";
-  ERROR_BUTTON_NO_CONNECTION = "Cannot connect to button";
-  ERROR_LIDAR_NO_CONNECTION = "Cannot connect to LiDAR";
-  ERROR_LIDAR_WRONG_DATA = "LiDAR returning false data";
-  ERROR_LIDAR_BLOCKED_OR_NO_CONNECTION = "LiDAR blocked or disconnected";
-  ERROR_LIDAR_BLOCKED = "LiDAR blocked";
-  ERROR_ULTRASONIC_NO_CONNECTION = "Cannot connect to ultrasonic sensor";
-  ERROR_ULTRASONIC_WRONG_DATA = "Ultrasonic sensor returning false data";
-  ERROR_ULTRASONIC_BLOCKED = "Ultrasonic sensor blocked";;
-  ERROR_ACCELEROMETER_NO_CONNECTION = "Cannot connect to accelerometer";
-  ERROR_ACCELEROMETER_WRONG_DATA = "Accelerometer returning false data";
-  ERROR_UNKNOWN = "An unknown error occured";
   ULTRASONIC_SENSOR_RANGE[0] = 0;
   ULTRASONIC_SENSOR_RANGE[1] = 3;
   ULTRASONIC_SENSOR_RANGE[2] = 5;
@@ -54,16 +30,16 @@ SystemDiagnostic::SystemDiagnostic() {
 }
 
 // Manually set error.
-void SystemDiagnostic::error(String errorCode) {
+void SystemDiagnostic::error(ERROR_CODE errorCode) {
   error(errorCode, SENSOR_NULL, true);
 }
-void SystemDiagnostic::error(String errorCode, bool confirm) {
+void SystemDiagnostic::error(ERROR_CODE errorCode, bool confirm) {
   error(errorCode, SENSOR_NULL, confirm);
 }
-void SystemDiagnostic::error(String errorCode, SENSOR_ID id) {
+void SystemDiagnostic::error(ERROR_CODE errorCode, SENSOR_ID id) {
   error(errorCode, id, true);
 }
-void SystemDiagnostic::error(String errorCode, SENSOR_ID id, bool confirm) {
+void SystemDiagnostic::error(ERROR_CODE errorCode, SENSOR_ID id, bool confirm) {
   if (id <= SENSOR_MIN || id >= SENSOR_MAX) {
     if (confirm) {
       processError(ERROR_UNKNOWN, SENSOR_NULL, ERROR_COUNTER_THRESHOLD);
@@ -110,7 +86,7 @@ bool SystemDiagnostic::checkSensor(float reading, SENSOR_ID id) {
 
 // Check accelerometer data to determine whether there could be an error.
 bool SystemDiagnostic::checkAccelerometer(double acceleration, double velocity) {
-  if (acceleration <= ACCELEROMETER_RANGE[0] || acceleration >= ACCELEROMETER_RANGE[1] 
+  if (acceleration <= ACCELEROMETER_RANGE[0] || acceleration >= ACCELEROMETER_RANGE[1]
        || velocity <= ACCELEROMETER_RANGE[2] || velocity >= ACCELEROMETER_RANGE[3]) {
     processError(ERROR_ACCELEROMETER_NO_CONNECTION);
     return true;
@@ -123,13 +99,13 @@ bool SystemDiagnostic::checkAccelerometer(double acceleration, double velocity) 
 
 
 // Process the error to check whether its a false positive or actual error.
-void SystemDiagnostic::processError(String errorCode) {
+void SystemDiagnostic::processError(ERROR_CODE errorCode) {
   processError(errorCode, SENSOR_NULL, 1);
 }
-void SystemDiagnostic::processError(String errorCode, SENSOR_ID id) {
+void SystemDiagnostic::processError(ERROR_CODE errorCode, SENSOR_ID id) {
   processError(errorCode, id, 1);
 }
-void SystemDiagnostic::processError(String errorCode, SENSOR_ID id, byte increment) {
+void SystemDiagnostic::processError(ERROR_CODE errorCode, SENSOR_ID id, byte increment) {
   if (errorCode == NO_ERROR) {
     if (id == SENSOR_ACCELEROMETER) {
       currentAccelerometerError = NO_ERROR;
@@ -173,8 +149,6 @@ void SystemDiagnostic::processError(String errorCode, SENSOR_ID id, byte increme
       errorCode = ERROR_LIDAR_BLOCKED;
     }
   }
-  Serial.print("Error: ");
-  Serial.println(errorCode);
   // Output the error message for LiDAR blocked and update the corresponding variables.
   if (errorCode == ERROR_LIDAR_BLOCKED) {
     outputErrorMessage(errorCode);
@@ -218,7 +192,7 @@ void SystemDiagnostic::processError(String errorCode, SENSOR_ID id, byte increme
 }
 
 // Output the error to user.
-void SystemDiagnostic::outputErrorMessage(String errorCode) {
+void SystemDiagnostic::outputErrorMessage(ERROR_CODE errorCode) {
   Serial.println(errorCode);
   if (errorCode == ERROR_LIDAR_BLOCKED) {
     Serial.println("Speaker: Unblock the LiDAR and press the button once.");
