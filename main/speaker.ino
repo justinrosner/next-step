@@ -270,9 +270,20 @@ void LowPowerMessage() {
 // Says "Warning, part of device broken".
 void DeviceBrokenMessage() {
     voice.say(sp4_WARNING);
+    voice.say(spPAUSE1);
     voice.say(spt_PART);
     voice.say(spt_OF);
     voice.say(spt_DEVICE);
     voice.say(sp3_BROKEN);
     return;
+}
+
+void TurnAroundMessage() {
+    voice.say(spt_STOP);
+    voice.say(spPAUSE1);
+    voice.say(spt_PLEASE);
+    voice.say(spt_TURN);
+    voice.say(spt_ONE);
+    voice.say(spt_EIGHTY);
+    voice.say(sp3_DEGREES);
 }
