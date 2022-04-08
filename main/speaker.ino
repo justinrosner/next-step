@@ -278,6 +278,8 @@ void DeviceBrokenMessage() {
     return;
 }
 
+// This function lets the user know that they need to turn around (180 degrees)
+// Says "Stop, please turn 180 degrees".
 void TurnAroundMessage() {
     voice.say(spt_STOP);
     voice.say(spPAUSE1);
