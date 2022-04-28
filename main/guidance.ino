@@ -49,7 +49,9 @@ bool CheckForObstacles() {
   int count = 0;
   byte countTurnAround = 0;
   for (int i = 5; i > 0; i--) {
-    if (fused_distances[1] <= 100.0 && fused_distances[2] <= 125 && fused_distances[3] <= 150 && fused_distances[4] <= 125 && fused_distances[5] <= 100) {
+    if (fused_distances[1] <= 100.0 && fused_distances[2] <= 125 && \
+        fused_distances[3] <= 150 && fused_distances[4] <= 125 && \
+        fused_distances[5] <= 100) {
       countTurnAround++;
     }
   }

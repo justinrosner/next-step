@@ -13,7 +13,7 @@ byte count=0;
 int number [3]={0,0,0};
 int height;
 String place [3]={"hund", "ten", "ones"};
-// variables will change:
+// Dynamic Variables:
 int buttonState = 0; // variable for reading the pushbutton status
 int previousState=0;
 int i;
@@ -35,24 +35,13 @@ void GetUserHeight() {
     for(i=0;i<3;i++){
       while(true){
         buttonStateInpt();
-        /*Serial.println(count);
-        Serial.print("is " );
-        Serial.print(count);
-        Serial.print(" your  ");
-        Serial.print(place[i] );
-        Serial.println(" value?");
-        */
         DidYouInput();
         Serial.println("top");
         NumberMessage((int)count);
         Serial.println("bottom");
         number[i]=count;
-        //Serial.print("number is::");
-        //Serial.println(number[i]);
-        //count=0;
         buttonStateInptYN();
         if(count==YES){
-          //height=height+((int)number)*pow(10, (2-i));
           Serial.println("yes");
           break;
         }
@@ -60,10 +49,6 @@ void GetUserHeight() {
       }
       count=0;
     }
-    //Serial.print("is your Height ");
-    //Serial.print(number[0]);
-    //Serial.print(number[1]);
-    //Serial.println(number[2]);
     DidYouInput();
     NumberMessage((int)number[0]);
     NumberMessage((int)number[1]);
@@ -82,37 +67,23 @@ byte buttonStateInpt(){
   Serial.println("inputtop");
   fun[i]();
   Serial.println("inputbottom");
-  //Serial.print("enter position for ");
-  //Serial.println(place[i]);
-  //NumberMessage(i);
   while(idleCount<30){
     buttonState = digitalRead(SystemDiagnostic::BUTTON_PIN);
-    //Serial.println(count);
     if(count==9 ){
       return count;  
     }
-    /**else if(idleCount==30){
-      Serial.print("is", count, "your output?")  ;
-      delay(1000);
-      buttonState = digitalRead(SystemDiagnostic::BUTTON_PIN);
-    }*/
   // check if the pushbutton is pressed. If it is, the buttonState is HIGH:
     if (buttonState == HIGH) {
-    // turn LED on:
-    //digitalWrite(ledPin, HIGH);
       if(previousState!=buttonState){
         count++;  
         idleCount=0;
       }
     } else {
-    // turn LED off:
-    //digitalWrite(ledPin, LOW);
       idleCount++;
     }
     delay(100);
     previousState=buttonState;  
   }
-  //Serial.println("ending 3 sec idle");
   return count;
 }
 
@@ -121,20 +92,13 @@ byte buttonStateInptYN(){
   while (true) {
     count=0;
     byte idleCount=0;
-    //Serial.println("YES OR NO");
     delay(2000);
     ButtonConfirmInput();
     while(idleCount<30){
       buttonState = digitalRead(SystemDiagnostic::BUTTON_PIN);
-      //Serial.println(count);
       if(count==9 ){
         return count;  
       }
-      /**else if(idleCount==30){
-        Serial.print("is", count, "your output?")  ;
-        delay(1000);
-        buttonState = digitalRead(SystemDiagnostic::BUTTON_PIN);
-      }*/
     // check if the pushbutton is pressed. If it is, the buttonState is HIGH:
       if (buttonState == HIGH) {
       // turn LED on:
@@ -144,14 +108,11 @@ byte buttonStateInptYN(){
           idleCount=0;
         }
       } else {
-      // turn LED off:
-      //digitalWrite(ledPin, LOW);
         idleCount++;
       }
       delay(100);
       previousState=buttonState;  
     }
-    //Serial.println("ending 3 sec idle");
     if (count != 0) {
       return count;
     }
