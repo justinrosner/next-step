@@ -194,11 +194,49 @@ void SystemDiagnostic::processError(ERROR_CODE errorCode, SENSOR_ID id, byte inc
 // Output the error to user.
 void SystemDiagnostic::outputErrorMessage(ERROR_CODE errorCode) {
   Serial.println(errorCode);
-  if (errorCode == ERROR_LIDAR_BLOCKED) {
+  if (errorCode == ERROR_BUTTON_NO_CONNECTION) {
+    ButtonBrokenMessage();
+    StopUsingDeviceMessage();
+  }
+  else if (errorCode == ERROR_LIDAR_NO_CONNECTION) {
+    CannotConnectMessage();
+    StopUsingDeviceMessage();
+  }
+  else if (errorCode == ERROR_LIDAR_WRONG_DATA) {
+    WrongDataMessage();
+    StopUsingDeviceMessage();
+  }
+  else if (errorCode == ERROR_LIDAR_BLOCKED) {
     Serial.println("Speaker: Unblock the LiDAR and press the button once.");
+    DeviceBlockedMessage();
+    PressButtonOnceMessage();
     detectButtonPress();
     lidarUnblocked = true;
-    timeLidarUnblocked = millis();  
+    timeLidarUnblocked = millis();
+  }
+  else if (errorCode == ERROR_ULTRASONIC_NO_CONNECTION) {
+    CannotConnectMessage();
+    StopUsingDeviceMessage();
+  }
+  else if (errorCode == ERROR_ULTRASONIC_WRONG_DATA) {
+    WrongDataMessage();
+    StopUsingDeviceMessage();
+  }
+  else if (errorCode == ERROR_ULTRASONIC_BLOCKED) {
+    DeviceBlockedMessage();
+    StopUsingDeviceMessage();
+  }
+  else if (errorCode == ERROR_ACCELEROMETER_NO_CONNECTION) {
+    CannotConnectMessage();
+    StopUsingDeviceMessage();
+  }
+  else if (errorCode == ERROR_ACCELEROMETER_WRONG_DATA) {
+    WrongDataMessage();
+    StopUsingDeviceMessage();
+  }
+  else if (errorCode == ERROR_UNKNOWN) {
+    DeviceBrokenMessage();
+    StopUsingDeviceMessage();
   }
 }
 
@@ -220,4 +258,96 @@ void SystemDiagnostic::detectButtonPress() {
       return;
     }
   }
+}
+
+// This function lets the user know that one of the sensors is broken
+// Says "Warning, part of device broken".
+void SystemDiagnostic::DeviceBrokenMessage() {
+    voice.say(sp4_WARNING);
+    voice.say(spPAUSE1);
+    voice.say(spt_PART);
+    voice.say(spt_OF);
+    voice.say(spt_DEVICE);
+    voice.say(sp3_BROKEN);
+    return;
+}
+
+// This function lets the user know that the button is broken
+// Says "Warning, button broken".
+void SystemDiagnostic::ButtonBrokenMessage() {
+    voice.say(sp4_WARNING);
+    voice.say(spPAUSE1);
+    voice.say(sp2_BUTTON);
+    voice.say(sp3_BROKEN);
+    return;
+}
+
+// This function lets the user know that it cannot connect to one of the sensors
+// Says "Warning, cannot connect to part of device".
+void SystemDiagnostic::CannotConnectMessage() {
+    voice.say(sp4_WARNING);
+    voice.say(spPAUSE1);
+    voice.say(spt_CAN);
+    voice.say(spt_NOT);
+    voice.say(sp2_CONNECT);
+    voice.say(spt_TO);
+    voice.say(spt_PART);
+    voice.say(spt_OF);
+    voice.say(spt_DEVICE);
+    return;
+}
+
+// This function lets the user know that one of the sensors is blocked and unblock it
+// Says "Warning, something in front of device, clear it please".
+void SystemDiagnostic::DeviceBlockedMessage() {
+    voice.say(sp4_WARNING);
+    voice.say(spPAUSE1);
+    voice.say(spt_SOME);
+    voice.say(spt_THING);
+    voice.say(spt_IN);
+    voice.say(spt_FRONT);
+    voice.say(spt_OF);
+    voice.say(spt_DEVICE);
+    voice.say(spPAUSE1);
+    voice.say(spt_CLEAR);
+    voice.say(spt_IT);
+    voice.say(spt_PLEASE);
+    return;
+}
+
+// This function lets the user know to press the button once after unblocking
+// Says "and press button one time after".
+void SystemDiagnostic::PressButtonOnceMessage() {
+    voice.say(spt_AND);
+    voice.say(spt_PRESS);
+    voice.say(sp2_BUTTON);
+    voice.say(spa_ONE);
+    voice.say(spt_TIME);
+    voice.say(spt_AFTER);
+    return;
+}
+
+// This function lets the user know that it is receiving wrong data
+// Says "Warning, device got incorrect data".
+void SystemDiagnostic::WrongDataMessage() {
+    voice.say(sp4_WARNING);
+    voice.say(spPAUSE1);
+    voice.say(spt_DEVICE);
+    voice.say(spt_GOT);
+    voice.say(spt_IN);
+    voice.say(spt_CORRECT);
+    voice.say(spt_DATA);
+    return;
+}
+
+// This function lets the user know to stop using the device
+// Says "Please stop the use of device".
+void SystemDiagnostic::StopUsingDeviceMessage() {
+    voice.say(spt_PLEASE);
+    voice.say(spt_STOP);
+    voice.say(spt_THE);
+    voice.say(spt_USE);
+    voice.say(spt_OF);
+    voice.say(spt_DEVICE);
+    return;
 }

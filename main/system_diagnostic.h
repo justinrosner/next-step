@@ -2,6 +2,12 @@
 
 // Include header files
 #include "Arduino.h"
+#include "Talkie.h"
+#include "Vocab_US_Large.h"
+#include "Vocab_Special.h"
+#include "Vocab_US_TI99.h"
+#include "Vocab_US_Clock.h"
+#include "Vocab_US_Acorn.h"
 
 #ifndef System_Diagnostic_H
 #define System_Diagnostic_H
@@ -59,6 +65,14 @@ class SystemDiagnostic {
     void processError(ERROR_CODE, SENSOR_ID, byte);
     void outputErrorMessage(ERROR_CODE);
     void detectButtonPress();
+    Talkie voice;
+    void DeviceBrokenMessage();
+    void ButtonBrokenMessage();
+    void CannotConnectMessage();
+    void DeviceBlockedMessage();
+    void PressButtonOnceMessage();
+    void WrongDataMessage();
+    void StopUsingDeviceMessage();
 };
 
 #endif

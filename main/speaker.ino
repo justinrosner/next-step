@@ -266,18 +266,6 @@ void LowPowerMessage() {
     return;
 }
 
-// This function lets the user know that one of the sensors is broken
-// Says "Warning, part of device broken".
-void DeviceBrokenMessage() {
-    voice.say(sp4_WARNING);
-    voice.say(spPAUSE1);
-    voice.say(spt_PART);
-    voice.say(spt_OF);
-    voice.say(spt_DEVICE);
-    voice.say(sp3_BROKEN);
-    return;
-}
-
 // This function lets the user know that they need to turn around (180 degrees)
 // Says "Stop, please turn 180 degrees".
 void TurnAroundMessage() {
