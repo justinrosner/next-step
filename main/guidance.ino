@@ -8,24 +8,32 @@
 
 // Constants used in the "Bubble Rebound Algorithm"
 double bubble_boundary[N];
-const double ki = 3;  // This is a scaling constant. Try values between [0.2-3]
+const double ki = 5;  // This is a scaling constant. Try values between [0.2-3]
 const double alpha_0 = M_PI / N;
 
 // This function updates the bubble_boundary array
 void UpdateBubbleBoundary() {
   // Update the velocity
   // TO-DO: Uncomment this when the accelerometer is setup in final system
-  //UpdateVelocity();
-  velocity = 100.0;  // temp value for velocity (measure in cm/s)
+  UpdateVelocity();
+  velocity = abs(velocity);  // temp value for velocity (measure in cm/s)
   double value = 0.0;
   
   // If the velocity is less than 1m/s then we want to use a fixed bubble
   // boundary size
   if (velocity <= 100.0) {
     value = 100.0;
-  } else {
-    value = velocity;
   }
+  else if (velocity >= 500.0) {
+    value = 500.0;
+  } else if(isnan(velocity)){
+    value=500;
+  }
+  else{
+     value = velocity;
+
+   }
+
   
   //Serial.println("Bubble Boundary: " + String(ki * value));
 
@@ -39,15 +47,30 @@ void UpdateBubbleBoundary() {
 // bubble
 bool CheckForObstacles() {
   int count = 0;
-  for (int i = 0; i < N; i++) {
+  byte countTurnAround = 0;
+  for (int i = 5; i > 0; i--) {
+    if (fused_distances[1] <= 100.0 && fused_distances[2] <= 125 && fused_distances[3] <= 150 && fused_distances[4] <= 125 && fused_distances[5] <= 100) {
+      countTurnAround++;
+    }
+  }
+  
+  if (countTurnAround == 5) {
+    //call talkie turn around
+    Serial.println("Turn around");
+    TurnAroundMessage();
+  }
+  else {
+    for (int i = 0; i < N; i++) {
     if (fused_distances[i] <= bubble_boundary[i])
       count++;
+    }
+  
+    // If none of the sensors have detected an object we return false
+    if (count == 0) {
+      return false;
+    }
   }
-
-  // If none of the sensors have detected an object we return false
-  if (count == 0) {
-    return false;
-  }
+  
   // Otherwise it means that the sensors have detected an object and
   // we return true
   return true;

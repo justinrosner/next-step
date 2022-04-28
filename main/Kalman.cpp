@@ -31,17 +31,17 @@ float Kalman::getDist(){
 }
 
 float Kalman::nextEstimate(float dist){
-	xtUpdate= xtPrev;
+	  xtUpdate= xtPrev;
   	ptUpdate= ptPrev + Q;
   
- 	Kt=(ptUpdate)/(ptUpdate + R);
+ 	  Kt=(ptUpdate)/(ptUpdate + R);
   	xt= xtUpdate + (Kt*(dist - xtUpdate));
   	pt=(1-Kt)*ptUpdate;
   	//Serial.println("variance is = " +String(pt));
   	KalmanData=xt;
-	xtPrev=xt;
+	  xtPrev=xt;
   	ptPrev=pt;
-	return KalmanData;
+	  return KalmanData;
 	
 }
 

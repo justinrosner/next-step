@@ -1,5 +1,4 @@
-/*  
- // This file contains all of the code relating to gathering velocity data from
+// This file contains all of the code relating to gathering velocity data from
 // the accelerometer
 #include "Kalman.h"
 // Constants for moving point average
@@ -11,7 +10,7 @@ struct AccelInformation {
   double sum = 0;
   double reading[WINDOW_SIZE];
 };
-float velocity=0;
+//float velocity=0;
 Kalman filt(10, 0.00001);
 // Pin Assignments, these need to be assigned to analog pins
 const int x_pin = A0;
@@ -34,9 +33,10 @@ double getXAcceleration() {
     /*double filtered_acceleration = MovingPointAverage(accelerometer_readings.sum,
                                                accelerometer_readings.reading,
                                                accelerometer_readings.index,
-                                               acceleration);
-    double filtered_acceleration = filt.nextEstimate(acceleration);
-    //Serial.println("X Accel: " + String(filtered_acceleration) + " ");
+                                               acceleration);*/
+    float filtered_acceleration = filt.nextEstimate(acceleration);
+    Serial.println("X Accel: " + String(filtered_acceleration) + " ");
+    //return filtered_acceleration;
     return filtered_acceleration;
 }
 
@@ -51,19 +51,18 @@ void UpdateVelocity() {
     time1 = time_since_last_reading;
     double accel = 0 + getXAcceleration();
     velocity += accel * (time_since_last_reading / 1000);
-    //Serial.println("Velocity: " + String(velocity));
+    Serial.println("Velocity: " + String(velocity));
 }
 
-void accleSetup() {
+void accelSetup() {
   // put your setup code here, to run once:
-  //Serial.begin(9600);
+  Serial.begin(9600);
   getXAcceleration();
   accel_offset= -1*acceleration;
 
 }
 
-void AccelLoop() {
+void accelLoop() {
   //getXAcceleration();
   UpdateVelocity();
 }
-*/
