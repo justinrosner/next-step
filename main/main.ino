@@ -8,6 +8,7 @@
 double distances[N];          // Ultrasonic distances
 double fused_distances[N];    // fused distance points for each of the 5 sectors
 float velocity = 0.0;          // Velocity of user (assumed to be forwards)
+int height;
 double time = millis();
 SystemDiagnostic diagnosticModule;
 

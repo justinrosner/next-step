@@ -11,7 +11,6 @@ Function fun [3]={InputFirstDigit, InputSecondDigit, InputThirdDigit};
 // Global variables to be used in this file
 byte count=0;
 int number [3]={0,0,0};
-int height;
 String place [3]={"hund", "ten", "ones"};
 // Dynamic Variables:
 int buttonState = 0; // variable for reading the pushbutton status
